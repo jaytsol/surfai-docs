@@ -28,7 +28,7 @@
     {
       "email": "user@example.com",
       "password": "password123!",
-      "displayName": "서프아이"
+      "displayName": "서파이"
     }
     ```
 -   **Successful Response (`201 Created`):**

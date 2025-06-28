@@ -17,7 +17,7 @@
     -   `user: User | null`: 현재 로그인된 사용자의 정보 객체. 비로그인 시 `null`.
     -   `isLoading: boolean`: 앱 시작 시 또는 로그인/로그아웃 시 인증 상태를 확인하는 동안 `true`가 됩니다.
     -   `login(credentials)`: 일반 이메일/비밀번호 로그인을 처리하는 함수.
-    -   `logout()`: 사용자를 로그아웃 처리하고 관련 쿠키를 삭���하는 함수.
+    -   `logout()`: 사용자를 로그아웃 처리하고 관련 쿠키를 삭제하는 함수.
     -   `fetchUserProfile()`: 서버에 프로필 정보를 요청하여 `user` 상태를 갱신하는 함수.
 
 ### 나. `useComfyWebSocket.ts`

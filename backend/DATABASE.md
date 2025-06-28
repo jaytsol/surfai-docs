@@ -32,7 +32,7 @@
 
 ### 나. `workflows` 테이블
 
-워크플로�� "템플릿"과, 사용자가 파라미터를 저장한 "나만의 워크플로우" 인스턴스를 모두 관리하는 테이블입니다.
+워크플로우 "템플릿"과, 사용자가 파라미터를 저장한 "나만의 워크플로우" 인스턴스를 모두 관리하는 테이블입니다.
 
 | 컬럼명               | 타입      | 제약 조건                               | 설명                                                                 |
 | -------------------- | --------- | --------------------------------------- | -------------------------------------------------------------------- |
@@ -41,7 +41,7 @@
 | `description`        | `text`    | Nullable                                | 워크플로우에 대한 상세 설명.                                         |
 | `definition`         | `jsonb`   | Nullable                                | ComfyUI의 원본 워크플로우 API 포맷 JSON. (주로 `isTemplate: true`일 때 사용) |
 | `parameter_map`      | `jsonb`   | Nullable                                | 동적 파라미터와 실제 노드를 매핑하는 정보.                           |
-| `previewImageUrl`    | `text`    | Nullable                                | ���록에서 보여줄 템플릿의 미리보기 이미지 URL.                        |
+| `previewImageUrl`    | `text`    | Nullable                                | 목록에서 보여줄 템플릿의 미리보기 이미지 URL.                        |
 | `tags`               | `text[]`  | Nullable                                | 템플릿 분류를 위한 태그 배열.                                        |
 | `isTemplate`         | `boolean` | Not Null, Default=`true`                | `true`이면 관리자가 만든 템플릿, `false`이면 사용자가 저장한 인스턴스. |
 | `isPublicTemplate`   | `boolean` | Not Null, Default=`false`               | `true`이면 모든 사용자에게 공개되는 템플릿.                          |
@@ -52,7 +52,7 @@
 
 ### 다. `generated_outputs` 테이블
 
-사용자가 생성한 모든 결과물(이미지/비디오)에 대한 메���데이터를 저장하는 테이블입니다.
+사용자가 생성한 모든 결과물(이미지/비디오)에 대한 메타데이터를 저장하는 테이블입니다.
 
 | 컬럼명              | 타입             | 제약 조건                       | 설명                                                         |
 | ------------------- | ---------------- | ------------------------------- | ------------------------------------------------------------ |
@@ -62,7 +62,7 @@
 | `r2Url`             | `varchar(2048)`  | Not Null                        | Cloudflare R2에 저장된 실제 파일의 고유 경로 URL.            |
 | `originalFilename`  | `varchar`        | Not Null                        | ComfyUI가 생성한 원본 파일 이름.                             |
 | `mimeType`          | `varchar`        | Not Null                        | 파일의 MIME 타입. (예: `image/png`, `video/mp4`)             |
-| `promptId`          | `varchar`        | Not Null, **Index**             | 생성 작업을 식별하는 ComfyUI의 프���프트 ID.                  |
+| `promptId`          | `varchar`        | Not Null, **Index**             | 생성 작업을 식별하는 ComfyUI의 프롬프트 ID.                  |
 | `usedParameters`    | `jsonb`          | Nullable                        | 생성 시 사용자가 입력한 동적 파라미터 값들의 기록.           |
 | `duration`          | `float`          | Nullable                        | 결과물이 비디오일 경우, 초 단위 재생 시간.                   |
 | `createdAt`         | `timestamptz`    | Not Null                        | 레코드 생성 시각                                             |

@@ -21,7 +21,7 @@
     -   **Cloud Build API:** `Docker` 이미지 빌드
     -   **Artifact Registry API:** 빌드된 `Docker` 이미지 저장
     -   **IAM API (Identity and Access Management):** 권한 관리
-    -   **IAM Service Account Credentials API:** 인증 토큰 생���
+    -   **IAM Service Account Credentials API:** 인증 토큰 생성
 
 ### 나. 서비스 계정 (Service Account) 설정
 
@@ -48,7 +48,7 @@
     -   **속성 조건:** `assertion.repository_owner == 'jaytsol'`
 -   **서비스 계정과 외부 ID 연결 (가장 중요):**
     -   `github-actions-deployer` 서비스 계정의 "권한" 탭으로 이동합니다.
-    -   **"+ 액세스 권한 부여"**를 클릭���니다.
+    -   **"+ 액세스 권한 부여"**를 클릭합니다.
     -   **새 주 구성원:** `principalSet://iam.googleapis.com/projects/781704308120/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository_owner/jaytsol`
     -   **역할 부여:** 다음 두 가지 역할을 모두 추가하고 저장합니다.
         -   `워크로드 아이덴티티 사용자 (Workload Identity User)`

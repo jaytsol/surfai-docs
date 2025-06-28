@@ -29,7 +29,7 @@
 
 백엔드는 **모듈(Module) 기반의 계층형 아키텍처(Layered Architecture)**를 따릅니다.
 
--   **모듈화:** 기능별로 책임을 명���히 나누기 위해 `AuthModule`, `WorkflowModule` 등 독립적인 모듈로 구성됩니다. 각 모듈은 자체적으로 `Controller`, `Service`, `Provider`를 가집니다.
+-   **모듈화:** 기능별로 책임을 명확히 나누기 위해 `AuthModule`, `WorkflowModule` 등 독립적인 모듈로 구성됩니다. 각 모듈은 자체적으로 `Controller`, `Service`, `Provider`를 가집니다.
 -   **계층 분리:**
     -   **Controller:** `HTTP` 요청을 받고, 유효성을 검사한 뒤, 적절한 서비스 메소드를 호출하는 역할만 합니다. 비즈니스 로직을 포함하지 않습니다.
     -   **Service:** 핵심 비즈니스 로직을 처리합니다. 데이터베이스와 통신하거나 다른 서비스를 호출하는 등 실제 작업이 이루어집니다.
@@ -48,7 +48,7 @@
 │   ├── 📁 guards/
 │   └── 📁 strategies/
 ├── 📁 comfyui/            # ComfyUI 연산 서버와의 통신을 담당하는 모듈
-├── 📁 common/             # 여러 모듈에서 공통으로 사용하�� 요소
+├── 📁 common/             # 여러 모듈에서 공통으로 사용하는 요소
 │   ├── 📁 decorators/
 │   ├── 📁 dto/            # 데이터 전송 객체 (Data Transfer Objects)
 │   ├── 📁 entities/       # 데이터베이스 테이블과 매핑되는 TypeORM 엔티티
@@ -75,7 +75,7 @@
 
 ### 단위/통합 테스트 실행
 
--   프로젝트에 작성된 모든 테스트를 실행합니��.
+-   프로젝트에 작성된 모든 테스트를 실행합니다.
     ```bash
     npm test
     ```

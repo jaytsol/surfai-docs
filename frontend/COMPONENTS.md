@@ -64,12 +64,14 @@
     -   `HistoryGallery`와 `GeneratedItem` 컴포넌트를 재사용하여 결과물을 표시합니다.
     -   `ImageLightbox`의 열림/닫힘 상태를 관리합니다.
 
-### 다. `admin/workflows/page.tsx` 등
+### 다. `admin/workflows/new/page.tsx` 및 `admin/workflows/[id]/edit/page.tsx`
 
--   **역할:** 관리자 전용 기능 페이지.
+-   **역할:** 관리자용 워크플로우 템플릿 생성 및 수정 페이지.
 -   **주요 로직:**
     -   페이지 접근 시 `useAuth`를 통해 사용자의 `role`이 `admin`인지 확인하고, 아닐 경우 즉시 리디렉션시키는 접근 제어 로직을 포함합니다.
-    -   관리자용 API를 호출하여 데이터를 가져와 표시합니다.
+    -   **`ParameterMappingForm` 컴포넌트를 재사용**하여 파라미터 설정 UI를 렌더링합니다.
+    -   **생성 페이지:** 2단계(기본 정보 입력 -> 파라미터 매핑) 흐름을 관리하며, 각 단계에 맞는 API(`POST /workflow-templates`, `PUT /.../parameter-map`)를 호출합니다.
+    -   **수정 페이지:** 페이지 로드 시 기존 템플릿 데이터를 불러와 모든 폼을 채우고, '저장' 시 `PATCH /workflow-templates/:id` API를 호출하여 모든 변경사항을 한 번에 업데이트합니다.
 
 ---
 
@@ -77,7 +79,25 @@
 
 `src/components/` 디렉토리에 위치하며, 특정 UI 조각이나 기능을 담당하는 "단순한(Dumb)" 컴포넌트입니다.
 
-### 가. `GeneratedItem.tsx`
+### 가. `ParameterMappingForm.tsx`
+
+-   **위치:** `src/components/admin/ParameterMappingForm.tsx`
+-   **역할:** 워크플로우 템플릿의 `parameter_map`을 생성하고 수정하는 데 사용되는 매우 복잡하고 동적인 폼 UI 전체를 담당하는 **"파라미터 매핑 전문 컴포넌트"**입니다.
+-   **재사용:**
+    -   **생성 페이지 (`new/page.tsx`):** 2단계 화면에서 사용됩니다. `onSave`, `onBack` 함수를 전달받아 폼 내부의 버튼으로 자체적인 저장/취소 로직을 수행합니다.
+    -   **편집 페이지 (`edit/page.tsx`):** 페이지의 일부로 포함됩니다. `onSave`, `onBack` 없이 렌더링되며, 데이터 표시와 수정 역할만 담당합니다. 최종 저장은 편집 페이지의 메인 '저장' 버튼이 처리합니다.
+-   **주요 기능:**
+    -   **카테고리 기반 로직:** `prop`으로 받은 `category`에 따라 API를 호출하여 관련 파라미터 사전 설정(Preset) 목록을 불러옵니다.
+    -   **필수 파라미터 자동 추가:** `new` 페이지 모드일 때, 카테고리에 해당하는 필수 파라미터들을 자동으로 목록에 추가합니다.
+    -   **지능형 UI:**
+        -   노드 선택 시 해당 노드의 상세 정보(`inputs`, `class_type`)를 보여줍니다.
+        -   `input_name`을 클릭 한 번으로 자동 완성할 수 있습니다.
+        -   사전 설정으로 추가된 파라미터는 `key`와 `type`이 잠금 처리되어 실수를 방지합니다.
+        -   필수 파라미터는 삭제할 수 없도록 비활성화됩니다.
+        -   이미 추가된 사전 설정은 '파라미터 추가' 드롭다운에서 비활성화됩니다.
+    -   **상태 관리:** `props`로 `parameterMap` 상태와 `setParameterMap` 함수를 직접 전달받아, 부모 컴포넌트(페이지)의 상태를 직접 제어합니다.
+
+### 나. `GeneratedItem.tsx`
 
 -   **역할:** 갤러리에 표시되는 개별 결과물 카드 하나를 렌더링합니다. `SessionGallery`와 `HistoryGallery`에서 모두 재사용됩니다.
 -   **주요 기능:**
@@ -87,7 +107,7 @@
     -   `item.createdAt`을 기준으로 파일 만료 여부를 판단하고, 만료 시 대체 UI를 보여줍니다.
     -   확대보기/다운로드/삭제 버튼을 포함하며, 클릭 시 부모로부터 받은 핸들러 함수(`onImageClick`, `onDelete`)를 호출합니다.
 
-### 나. `ImageLightbox.tsx`
+### 다. `ImageLightbox.tsx`
 
 -   **역할:** 사용자가 갤러리에서 이미지를 클릭했을 때, 화면 전체를 덮으며 확대된 이미지와 상세 메타데이터를 보여주는 모달입니다.
 -   **주요 기능:**

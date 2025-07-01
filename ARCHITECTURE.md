@@ -47,7 +47,7 @@ graph TD
     C -- API 요청 (HTTPS) --> D;
     D -- 데이터 CRUD --> E;
     D -- 파일 업로드/URL 생성 --> F;
-    D -- 생성 작업 요청 (ngrok 터널) --> G;
+    D -- 생성 작업 요청 (HTTPS) --> G;
     
     subgraph "실시간 통신 (WebSocket)"
         C <-. wss .-> D
@@ -88,7 +88,7 @@ graph TD
 -   **핵심 역할:**
     -   백엔드로부터 워크플로우와 파라미터를 받아 실제 AI 연산을 수행하는 무거운 작업을 전담합니다.
     -   생성 과정 중 발생하는 `progress`, `executed` 등의 이벤트를 `WebSocket`을 통해 백엔드로 전송합니다.
-    -   `ngrok`과 같은 터널링 도구를 사용하여, 클라우드에 있는 백엔드가 방화벽 뒤의 연산 서버에 안전하게 접근할 수 있도록 합니다.
+    -   **Nginx 리버스 프록시**를 사용하여 외부 인터넷에 안전하게 노출되며, 기본 인증(Basic Authentication)을 통해 1차적인 접근 제어를 수행합니다.
 
 ### 라. 클라우드 인프라 (Cloud Infrastructure)
 

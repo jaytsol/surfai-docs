@@ -1,78 +1,78 @@
-# 🖼️ 프론트엔드 아키텍처 및 폴더 구조 (Frontend)
+🖼️ 웹사이트 화면(프론트엔드) 설명서
 
 > 최종 업데이트: 2025년 6월 29일
 
-이 문서는 `comfy-surfai-frontend-next` 리포지토리의 기술 스택, 아키텍처 원칙, 주요 폴더 구조, 그리고 실행 방법을 설명합니다.
+이 문서는 SurfAI 서비스의 웹사이트 화면을 만드는 프로그램이 어떤 기술로 만들어졌고, 어떤 규칙을 따르며, 주요 폴더들이 어떻게 구성되어 있고, 어떻게 실행하는지 쉽게 설명해 드립니다.
 
 ---
 
-## 1. 기술 스택 (Tech Stack)
+## 1. 사용된 기술들
 
-- **프레임워크:** Next.js (App Router)
-- **UI 라이브러리:** React, TypeScript
-- **스타일링:** Tailwind CSS
-- **UI 컴포넌트:** shadcn/ui (Radix UI 기반)
-- **아이콘:** `lucide-react`
-- **API 통신:** `fetch` API 기반의 커스텀 `apiClient`
-- **코드 품질:** ESLint, Prettier
+-   **기본 틀:** Next.js (웹사이트 화면을 만드는 데 사용되는 기본 틀)
+-   **화면 구성:** React, TypeScript (화면을 만들고 관리하는 데 사용되는 기술)
+-   **디자인:** Tailwind CSS (웹사이트 디자인을 쉽게 할 수 있게 돕는 도구)
+-   **화면 부품:** shadcn/ui (미리 만들어진 버튼, 입력창 등 웹사이트 부품들)
+-   **아이콘:** `lucide-react` (다양한 아이콘을 사용할 수 있게 돕는 도구)
+-   **정보 주고받기:** `apiClient` (뒤에서 일하는 프로그램과 정보를 주고받는 우리만의 방식)
+-   **코드 품질:** ESLint, Prettier (코드의 오류를 찾고 깔끔하게 정리하는 도구)
 
-## 2. 아키텍처 원칙
+## 2. 프로그램 만드는 규칙
 
-프론트엔드는 **컴포넌트 기반 아키텍처(Component-Based Architecture)**를 중심으로, 역할과 책임을 명확하게 분리하는 것을 목표로 합니다.
+웹사이트 화면을 만드는 프로그램은 **각각의 부품(컴포넌트)들을 중심으로, 역할과 책임을 명확하게 나누는 방식**으로 만들어졌어요.
 
-- **컴포넌트 계층화:**
-  - **페이지 (Page):** `app/` 폴더 내의 `page.tsx` 파일들. 데이터 로딩, 상태 관리 등 "스마트"한 로직을 담당하는 컨테이너 역할을 합니다.
-  - **복합 컴포넌트 (Compound):** `components/common/` 또는 `components/feature/`에 위치하며, 여러 UI 요소를 조합하여 특정 기능을 수행합니다. (예: `SessionGallery`)
-  - **원자적 컴포넌트 (Atomic):** `components/ui/`에 위치하며, `Button`, `Input` 등 가장 기본적이고 재사용 가능한 UI 단위입니다. (주로 `shadcn/ui`로 생성)
+-   **부품 나누기:**
+    -   **페이지:** `app/` 폴더 안에 있는 파일들로, 웹사이트의 각 페이지를 담당해요. 데이터를 가져오거나 화면의 상태를 관리하는 등 중요한 역할을 해요.
+    -   **복합 부품:** `components/common/` 또는 `components/feature/`에 있는 부품들로, 여러 개의 작은 부품들을 모아서 특정 기능을 수행해요. (예: `SessionGallery`)
+    -   **기본 부품:** `components/ui/`에 있는 부품들로, `버튼`, `입력창`처럼 가장 기본적이고 여러 곳에서 다시 사용할 수 있는 화면 부품들이에요. (주로 `shadcn/ui`로 만들어요)
 
-- **상태 관리 (State Management):**
-  - **전역 상태:** 사용자의 인증 정보와 같이 여러 페이지에서 공유되어야 하는 상태는 React Context API (`AuthContext`)를 통해 관리합니다.
-  - **지역 상태:** 특정 페이지나 컴포넌트 내부에서만 사용되는 상태는 `useState` 훅을 사용하여 관리합니다.
+-   **정보 관리 (상태 관리):**
+    -   **전체 정보:** 사용자가 로그인했는지 같은, 여러 페이지에서 함께 사용해야 하는 정보는 `React Context API` (`AuthContext`)라는 방식으로 관리해요.
+    -   **부분 정보:** 특정 페이지나 부품 안에서만 사용되는 정보는 `useState`라는 기능을 사용해서 관리해요.
 
-- **데이터 통신:**
-  - 모든 백엔드 API 요청은 `lib/apiClient.ts`를 통해 이루어집니다. 이 파일은 요청 헤더 설정, 에러 처리, 그리고 **Access Token 만료 시 자동 재발급**과 같은 공통 로직을 중앙에서 처리합니다.
+-   **정보 주고받기:**
+    -   뒤에서 일하는 프로그램(백엔드)과 모든 정보는 `lib/apiClient.ts`라는 파일을 통해 주고받아요. 이 파일은 정보를 보낼 때 필요한 설정, 오류 처리, 그리고 **로그인 정보가 만료되면 자동으로 다시 받아오는 기능** 등을 담당해요.
 
 ## 3. 주요 폴더 구조
 
-
+```
 /src
-├── 📁 app/                 # 라우팅의 기본이 되는 폴더 (App Router)
-│   ├── 📁 (auth)/            # 인증 관련 페이지 그룹 (레이아웃에 영향 없음)
+├── 📁 app/                 # 웹사이트 주소(URL)를 관리하는 기본 폴더
+│   ├── 📁 (auth)/            # 로그인 관련 페이지들 (화면 구성에 영향 없음)
 │   │   ├── 📁 callback/
 │   │   └── 📁 login/
-│   ├── 📁 admin/              # 관리자 전용 페이지
+│   ├── 📁 admin/              # 관리자만 사용하는 페이지들
 │   │   └── 📁 workflows/
-│   └── 📁 history/            # 생성 기록 페이지
-│   └── 📄 layout.tsx         # 모든 페이지에 적용되는 공통 레이아웃
-│   └── 📄 page.tsx           # 홈페이지 (랜딩 페이지)
+│   └── 📁 history/            # 만들어진 그림/영상 기록 페이지
+│   └── 📄 layout.tsx         # 모든 페이지에 적용되는 공통 화면 구성
+│   └── 📄 page.tsx           # 웹사이트의 첫 화면
 │
-├── 📁 components/           # 재사용 가능한 UI 컴포넌트
-│   ├── 📁 common/             # 여러 기능을 조합한 복합 컴포넌트 (예: GeneratedItem)
-│   └── 📁 ui/               # Button, Card 등 원자적 UI 컴포넌트
+├── 📁 components/           # 다시 사용할 수 있는 화면 부품들
+│   ├── 📁 common/             # 여러 기능을 합친 복합 부품들 (예: GeneratedItem)
+│   └── 📁 ui/               # 버튼, 카드 등 가장 기본적인 화면 부품들
 │
-├── 📁 contexts/             # 전역 상태 관리를 위한 React Context
+├── 📁 contexts/             # 전체 정보를 관리하는 기능
 │   └── 📄 AuthContext.tsx
 │
-├── 📁 hooks/               # 재사용 가능한 복잡한 로직 (Custom Hooks)
+├── 📁 hooks/               # 다시 사용할 수 있는 복잡한 기능들 (커스텀 훅)
 │   └── 📄 useComfyWebSocket.ts
 │
-├── 📁 interfaces/           # TypeScript 타입 정의
+├── 📁 interfaces/           # 프로그램에서 사용하는 정보들의 형태 정의
 │   ├── 📄 history.interface.ts
 │   └── 📄 user.interface.ts
 │
-└── 📁 lib/                  # 공통 유틸리티 및 라이브러리 설정
+└── 📁 lib/                  # 공통으로 사용되는 도구 및 설정
 └── 📄 apiClient.ts
 
 
 ## 4. 실행 방법
 
-### 개발 환경 실행
-1.  프로젝트 루트에 `.env.local` 파일을 생성합니다.
-2.  `NEXT_PUBLIC_API_URL`과 `NEXT_PUBLIC_WEBSOCKET_URL` 환경 변수를 설정합니다. (예: `http://localhost:3000`)
-3.  `npm install` 명령어로 모든 의존성을 설치합니다.
-4.  `npm run dev` 명령어로 개발 서버를 실행합니다. 서버는 `http://localhost:4000`에서 실행됩니다.
+### 개발 환경에서 실행하기
+1.  프로그램 폴더 안에 `.env.local`이라는 파일을 만드세요.
+2.  `NEXT_PUBLIC_API_URL`과 `NEXT_PUBLIC_WEBSOCKET_URL`이라는 설정 값들을 입력하세요. (예: `http://localhost:3000`)
+3.  `npm install` 명령어를 입력해서 프로그램에 필요한 모든 도구들을 설치하세요.
+4.  `npm run dev` 명령어를 입력해서 프로그램을 실행하세요. 프로그램은 `http://localhost:4000` 주소에서 작동할 거예요.
 
-## 5. 주요 환경 변수
+## 5. 꼭 필요한 설정 값들
 
-- **`NEXT_PUBLIC_API_URL`**: API 요청을 보낼 백엔드 서버의 기본 URL.
-- **`NEXT_PUBLIC_WEBSOCKET_URL`**: WebSocket 연결을 위한 백엔드 서버의 URL.
+-   **`NEXT_PUBLIC_API_URL`**: 뒤에서 일하는 프로그램(백엔드)에 정보를 보낼 때 사용하는 기본 주소.
+-   **`NEXT_PUBLIC_WEBSOCKET_URL`**: 실시간으로 정보를 주고받을 때 사용하는 뒤에서 일하는 프로그램의 주소.

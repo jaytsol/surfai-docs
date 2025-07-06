@@ -1,140 +1,140 @@
-# 📡 백엔드 API 명세서 (API Specification)
+📡 뒤에서 일하는 프로그램(서버) 기능 설명서
 
 > **최종 업데이트:** 2025년 6월 29일
 >
-> 이 문서는 SurfAI 백엔드 API의 모든 엔드포인트, 요청/응답 형식, 그리고 인증 요구사항을 상세히 기술합니다.
+> 이 문서는 SurfAI 서비스의 뒤에서 일하는 프로그램(서버)이 어떤 기능들을 제공하고, 어떻게 정보를 주고받는지, 그리고 어떤 로그인 방식이 필요한지 자세히 설명해 드립니다.
 
 ---
 
 ## 1. 기본 정보
 
--   **API Base URL (운영):** `https://api.surfai.org`
--   **API Base URL (개발):** `http://localhost:3000`
--   **인증 방식:** 모든 보호된 API는 **HttpOnly 쿠키**에 담긴 JWT(Access Token)를 통해 인증됩니다. Swagger 테스트 시에는 "Authorize" 버튼에 `Bearer <token>` 형식으로 토큰을 입력해야 합니다.
+-   **서버 주소 (실제 서비스):** `https://api.surfai.org`
+-   **서버 주소 (개발 중):** `http://localhost:3000`
+-   **로그인 방식:** 모든 중요한 기능들은 `HttpOnly 쿠키`라는 안전한 방식으로 전달되는 `JWT`라는 로그인 정보(접근 토큰)를 통해 사용자를 확인합니다. 만약 `Swagger`라는 테스트 도구로 기능을 확인하려면, 'Authorize' 버튼에 `Bearer <로그인 정보>` 형식으로 로그인 정보를 입력해야 합니다.
 
 ---
 
-## 2. 인증 (Authentication) API
+## 2. 로그인 관련 기능
 
-> **Controller:** `AuthController`
-> **Base Path:** `/auth`
+> **담당:** `AuthController`
+> **기본 주소:** `/auth`
 
 ### 2.1 일반 회원가입
--   **Endpoint:** `POST /register`
--   **설명:** 이메일, 비밀번호, 표시 이름을 사용하여 새로운 사용자를 생성합니다.
--   **인증:** 필요 없음 (Public)
--   **Request Body:** `CreateUserDTO`
--   **Successful Response (`201 Created`):** `UserResponseDTO`
--   **Error Responses:** `400 Bad Request`, `409 Conflict`
+-   **주소:** `POST /register`
+-   **설명:** 이메일, 비밀번호, 표시할 이름을 입력하여 새로운 사용자를 만듭니다.
+-   **로그인 필요 여부:** 필요 없음 (누구나 사용 가능)
+-   **보내는 정보:** `CreateUserDTO` (사용자 정보를 담는 양식)
+-   **성공 시 응답 (`201 Created`):** `UserResponseDTO` (만들어진 사용자 정보)
+-   **실패 시 응답:** `400 잘못된 요청`, `409 이미 존재함`
 
 ### 2.2 일반 로그인
--   **Endpoint:** `POST /login`
--   **설명:** 이메일과 비밀번호로 사용자를 인증하고, Access Token과 Refresh Token을 HttpOnly 쿠키로 설정합니다.
--   **인증:** 필요 없음 (Public)
--   **Request Body:** `LoginDTO`
--   **Successful Response (`200 OK`):** `LoginResponseDTO`
--   **Error Responses:** `401 Unauthorized`
+-   **주소:** `POST /login`
+-   **설명:** 이메일과 비밀번호로 사용자가 맞는지 확인하고, 로그인 정보(접근 토큰과 갱신 토큰)를 `HttpOnly 쿠키`로 사용자 컴퓨터에 저장합니다.
+-   **로그인 필요 여부:** 필요 없음 (누구나 사용 가능)
+-   **보내는 정보:** `LoginDTO` (로그인 정보를 담는 양식)
+-   **성공 시 응답 (`200 OK`):** `LoginResponseDTO` (로그인 성공 정보)
+-   **실패 시 응답:** `401 권한 없음`
 
-### 2.3 Google 로그인 시작
--   **Endpoint:** `GET /google`
--   **설명:** 사용자를 Google의 OAuth 2.0 인증 페이지로 리디렉션시킵니다.
--   **Successful Response (`302 Found`):** Google 로그인 페이지로 리디렉션.
+### 2.3 구글 로그인 시작
+-   **주소:** `GET /google`
+-   **설명:** 사용자를 구글 로그인 페이지로 연결해 줍니다.
+-   **성공 시 응답 (`302 Found`):** 구글 로그인 페이지로 이동
 
-### 2.4 Google 로그인 콜백
--   **Endpoint:** `GET /google/callback`
--   **설명:** Google 인증 성공 후 호출되는 콜백 URL. 로그인 처리 후 프론트엔드로 리디렉션합니다.
--   **Successful Response (`302 Found`):** 프론트엔드 페이지로 리디렉션.
+### 2.4 구글 로그인 결과 처리
+-   **주소:** `GET /google/callback`
+-   **설명:** 구글 로그인이 성공한 후 구글에서 우리 서비스로 다시 연결해 주는 주소입니다. 로그인 처리가 끝나면 웹사이트 화면으로 다시 연결해 줍니다.
+-   **성공 시 응답 (`302 Found`):** 웹사이트 화면으로 이동
 
-### 2.5 Access Token 재발급
--   **Endpoint:** `POST /refresh`
--   **설명:** 유효한 Refresh Token을 사용하여 만료된 Access Token을 재발급받습니다.
--   **인증:** Refresh Token 필요
--   **Successful Response (`200 OK`):** `{ "message": "Tokens refreshed successfully" }`
+### 2.5 로그인 정보(토큰) 다시 받기
+-   **주소:** `POST /refresh`
+-   **설명:** 만료된 로그인 정보(접근 토큰)를 새로운 갱신 토큰을 사용하여 다시 받습니다.
+-   **로그인 필요 여부:** 갱신 토큰 필요
+-   **성공 시 응답 (`200 OK`):** `{ "message": "로그인 정보가 성공적으로 갱신되었습니다." }`
 
-### 2.6 내 정보 조회
--   **Endpoint:** `GET /profile`
--   **설명:** 현재 로그인된 사용자의 상세 프로필 정보를 조회합니다.
--   **인증:** Access Token 필요
--   **Successful Response (`200 OK`):** `UserResponseDTO`
+### 2.6 내 정보 보기
+-   **주소:** `GET /profile`
+-   **설명:** 현재 로그인한 사용자의 자세한 정보를 보여줍니다.
+-   **로그인 필요 여부:** 접근 토큰 필요
+-   **성공 시 응답 (`200 OK`):** `UserResponseDTO` (사용자 정보)
 
 ### 2.7 로그아웃
--   **Endpoint:** `POST /logout`
--   **설명:** 사용자의 Refresh Token을 무효화하고 쿠키를 삭제합니다.
--   **인증:** Access Token 필요
--   **Successful Response (`204 No Content`):** 응답 본문 없음.
+-   **주소:** `POST /logout`
+-   **설명:** 사용자의 갱신 토큰을 무효화하고, 사용자 컴퓨터에 저장된 로그인 관련 쿠키를 삭제합니다.
+-   **로그인 필요 여부:** 접근 토큰 필요
+-   **성공 시 응답 (`204 No Content`):** 응답 내용 없음
 
 ---
 
-## 3. 생성 결과물 (히스토리) API
+## 3. 만들어진 그림/영상 기록 관련 기능
 
-> **Controller:** `GeneratedOutputController`
-> **Base Path:** `/my-outputs`
-> **인증:** 모든 API는 **Access Token**이 필요합니다.
+> **담당:** `GeneratedOutputController`
+> **기본 주소:** `/my-outputs`
+> **로그인 필요 여부:** 모든 기능은 **접근 토큰**이 필요합니다.
 
-### 3.1 나의 생성 기록 목록 조회
--   **Endpoint:** `GET /`
--   **Query Parameters:** `page: number`, `limit: number`
--   **Successful Response (`200 OK`):** `PaginatedHistoryResponse`
+### 3.1 내가 만든 그림/영상 기록 목록 보기
+-   **주소:** `GET /`
+-   **추가 정보:** `page: 숫자`, `limit: 숫자` (몇 번째 페이지를 볼지, 한 페이지에 몇 개를 볼지)
+-   **성공 시 응답 (`200 OK`):** `PaginatedHistoryResponse` (페이지별 기록 목록)
 
-### 3.2 표시용 URL 요청
--   **Endpoint:** `GET /:id/view-url`
--   **설명:** 특정 결과물을 표시하기 위한 단기 유효 URL을 요청합니다.
--   **Successful Response (`200 OK`):** `{ "viewUrl": "https://..." }`
+### 3.2 그림/영상 미리 보기 주소 요청
+-   **주소:** `GET /:id/view-url`
+-   **설명:** 특정 그림/영상을 웹사이트에서 미리 볼 수 있는 짧은 기간 동안만 유효한 주소를 요청합니다.
+-   **성공 시 응답 (`200 OK`):** `{ "viewUrl": "https://..." }` (미리 보기 주소)
 
-### 3.3 다운로드용 URL 요청
--   **Endpoint:** `GET /:id/download-url`
--   **설명:** 특정 결과물을 다운로드하기 위한 단기 유효 URL을 요청합니다.
--   **Successful Response (`200 OK`):** `{ "downloadUrl": "https://..." }`
+### 3.3 그림/영상 다운로드 주소 요청
+-   **주소:** `GET /:id/download-url`
+-   **설명:** 특정 그림/영상을 다운로드할 수 있는 짧은 기간 동안만 유효한 주소를 요청합니다.
+-   **성공 시 응답 (`200 OK`):** `{ "downloadUrl": "https://..." }` (다운로드 주소)
 
-### 3.4 생성 기록 삭제
--   **Endpoint:** `DELETE /:id`
--   **설명:** 특정 생성 기록과 관련 파일을 삭제합니다.
--   **Successful Response (`204 No Content`):** 응답 본문 없음.
+### 3.4 그림/영상 기록 삭제
+-   **주소:** `DELETE /:id`
+-   **설명:** 특정 그림/영상 기록과 관련된 파일들을 삭제합니다.
+-   **성공 시 응답 (`204 No Content`):** 응답 내용 없음
 
 ---
 
-## 4. 관리자 - 워크플로우 템플릿 API
+## 4. 관리자 기능 - 그림/영상 만드는 방법(템플릿) 관리
 
-> **Controller:** `AdminWorkflowController`
-> **Base Path:** `/workflow-templates`
-> **인증:** 모든 API는 **Access Token** 및 **Admin 역할**이 필요합니다.
+> **담당:** `AdminWorkflowController`
+> **기본 주소:** `/workflow-templates`
+> **로그인 필요 여부:** 모든 기능은 **접근 토큰**과 **관리자 권한**이 필요합니다.
 
-### 4.1 워크플로우 카테고리 목록 조회
--   **Endpoint:** `GET /categories`
--   **설명:** 템플릿 생성 시 사용할 수 있는 모든 워크플로우 카테고리 목록을 조회합니다.
--   **Successful Response (`200 OK`):** `string[]`
+### 4.1 그림/영상 만드는 방법(템플릿) 종류 목록 보기
+-   **주소:** `GET /categories`
+-   **설명:** 템플릿을 만들 때 사용할 수 있는 모든 종류(카테고리) 목록을 보여줍니다.
+-   **성공 시 응답 (`200 OK`):** `string[]` (종류 이름 목록)
 
-### 4.2 파라미터 사전 설정(Preset) 목록 조회
--   **Endpoint:** `GET /parameter-presets`
--   **Query Parameters:** `category: string` (선택)
--   **Successful Response (`200 OK`):** `ParameterPreset[]`
+### 4.2 설정 값 미리 정해진 목록 보기
+-   **주소:** `GET /parameter-presets`
+-   **추가 정보:** `category: 문자` (선택 사항, 특정 종류의 설정 값만 볼 때 사용)
+-   **성공 시 응답 (`200 OK`):** `ParameterPreset[]` (미리 정해진 설정 값 목록)
 
-### 4.3 [1단계] 새 워크플로우 템플릿 생성 (뼈대)
--   **Endpoint:** `POST /`
--   **설명:** `parameter_map`을 제외한 템플릿의 기본 정보를 저장하여 뼈대를 생성합니다.
--   **Request Body:** `CreateWorkflowTemplateDTO`
--   **Successful Response (`201 Created`):** `WorkflowTemplateResponseDTO`
+### 4.3 [1단계] 새로운 그림/영상 만드는 방법(템플릿) 만들기 (기본 틀)
+-   **주소:** `POST /`
+-   **설명:** 템플릿의 기본 정보만 저장하여 틀을 만듭니다. (세부 설정 값은 나중에 추가)
+-   **보내는 정보:** `CreateWorkflowTemplateDTO` (템플릿 기본 정보를 담는 양식)
+-   **성공 시 응답 (`201 Created`):** `WorkflowTemplateResponseDTO` (만들어진 템플릿 정보)
 
-### 4.4 [2단계] 파라미터 맵 설정
--   **Endpoint:** `PUT /:id/parameter-map`
--   **설명:** 생성된 템플릿에 파라미터 맵 정보를 설정(전체 교체)합니다.
--   **Request Body:** `Record<string, WorkflowParameterMappingItemDTO>`
--   **Successful Response (`200 OK`):** `WorkflowTemplateResponseDTO`
+### 4.4 [2단계] 세부 설정 값 연결하기
+-   **주소:** `PUT /:id/parameter-map`
+-   **설명:** 만들어진 템플릿에 사용자가 바꿀 수 있는 세부 설정 값들을 연결합니다. (기존 내용은 모두 바뀜)
+-   **보내는 정보:** `Record<string, WorkflowParameterMappingItemDTO>` (세부 설정 값들을 담는 양식)
+-   **성공 시 응답 (`200 OK`):** `WorkflowTemplateResponseDTO` (수정된 템플릿 정보)
 
-### 4.5 전체 워크플로우 템플릿 정보 수정
--   **Endpoint:** `PATCH /:id`
+### 4.5 그림/영상 만드는 방법(템플릿) 전체 수정
+-   **주소:** `PATCH /:id`
 -   **설명:** 특정 템플릿의 모든 정보를 한 번에 수정합니다.
--   **Request Body:** `Partial<CreateWorkflowTemplateDTO & { parameter_map: ... }>`
--   **Successful Response (`200 OK`):** `WorkflowTemplateResponseDTO`
+-   **보내는 정보:** `Partial<CreateWorkflowTemplateDTO & { parameter_map: ... }>` (수정할 템플릿 정보를 담는 양식)
+-   **성공 시 응답 (`200 OK`):** `WorkflowTemplateResponseDTO` (수정된 템플릿 정보)
 
-### 4.6 워크플로우 템플릿 목록 조회
--   **Endpoint:** `GET /`
--   **Successful Response (`200 OK`):** `WorkflowTemplateResponseDTO[]`
+### 4.6 그림/영상 만드는 방법(템플릿) 목록 보기
+-   **주소:** `GET /`
+-   **성공 시 응답 (`200 OK`):** `WorkflowTemplateResponseDTO[]` (템플릿 목록)
 
-### 4.7 특정 워크플로우 템플릿 상세 조회
--   **Endpoint:** `GET /:id`
--   **Successful Response (`200 OK`):** `WorkflowTemplateResponseDTO`
+### 4.7 특정 그림/영상 만드는 방법(템플릿) 자세히 보기
+-   **주소:** `GET /:id`
+-   **성공 시 응답 (`200 OK`):** `WorkflowTemplateResponseDTO` (자세한 템플릿 정보)
 
-### 4.8 워크플로우 템플릿 삭제
--   **Endpoint:** `DELETE /:id`
--   **Successful Response (`204 No Content`):** 응답 본문 없음.
+### 4.8 그림/영상 만드는 방법(템플릿) 삭제
+-   **주소:** `DELETE /:id`
+-   **성공 시 응답 (`204 No Content`):** 응답 내용 없음

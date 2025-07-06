@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docsSidebar.category.Project Overview": {
+    "message": "Project Overview",
+    "description": "The label for category Project Overview in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.Architecture": {
+    "message": "Architecture",
+    "description": "The label for category Architecture in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.Backend": {
+    "message": "Backend",
+    "description": "The label for category Backend in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.Frontend": {
+    "message": "Frontend",
+    "description": "The label for category Frontend in sidebar docsSidebar"
+  }
+}

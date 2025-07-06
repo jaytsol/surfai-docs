@@ -11,7 +11,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://surfai.github.io', // Your actual docs site URL
+  url: 'https://docs.surfai.org',
   baseUrl: '/surfai-docs/', // Should match your repo name if deploying to GitHub Pages
 
   organizationName: 'jaytsol', // Replace with your GitHub username

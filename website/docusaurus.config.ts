@@ -36,7 +36,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/jaytsol/surfai-docs/website/',
+          editUrl: 'https://github.com/jaytsol/surfai-docs/blob/main/website/',
         },
         blog: false, // Disable the blog plugin
         theme: {

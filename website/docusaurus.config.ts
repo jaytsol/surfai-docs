@@ -12,7 +12,7 @@ const config: Config = {
   },
 
   url: 'https://docs.surfai.org',
-  baseUrl: '/surfai-docs/', // Should match your repo name if deploying to GitHub Pages
+  baseUrl: '/', // Should match your repo name if deploying to GitHub Pages
 
   organizationName: 'jaytsol', // Replace with your GitHub username
   projectName: 'surfai-docs', // Your repo name

@@ -23,32 +23,44 @@ graph TD
     end
 
     subgraph "Cloudflare"
-        B(DNS / CDN / WAF)
+        B[DNS CDN WAF]
     end
 
-    subgraph "Google Cloud Platform (asia-northeast1)"
-        C[Google Cloud Run <br> <b>프론트엔드 (Next.js)</b> <br> surfai.org]
-        D[Google Cloud Run <br> <b>백엔드 (NestJS)</b> <br> api.surfai.org]
-        E[관리형 PostgreSQL <br> (<b>Supabase</b>)]
+    subgraph "Google Cloud Platform"
+        C[Google Cloud Run 프론트엔드 Next.js surfai.org]
+        D[Google Cloud Run 백엔드 NestJS api.surfai.org]
     end
 
-    subgraph "외부 서비스"
-        F[Cloudflare R2 <br> <b>파일 스토리지</b>]
+    subgraph "외부 서비스 (3rd Party)"
+        E[관리형 PostgreSQL Supabase]
+        F[Cloudflare R2 파일 스토리지]
+        H[Google OAuth 인증 서비스]
     end
     
-    subgraph "로컬 / 클라우드 VM"
-        G[연산 서버 <br> <b>ComfyUI (GPU)</b>]
+    subgraph "연산 서버 (On-premise / VM)"
+        G_Proxy[Nginx 리버스 프록시]
+        G[ComfyUI GPU]
+        G_Proxy -- 프록시 패스 --> G
     end
+
+    %% --- 데이터 흐름 정의 ---
 
     A -- HTTPS --> B;
     B -- surfai.org --> C;
     B -- api.surfai.org --> D;
     
     C -- API 요청 (HTTPS) --> D;
-    D -- 데이터 CRUD --> E;
-    D -- 파일 업로드/URL 생성 --> F;
-    D -- 생성 작업 요청 (HTTPS) --> G;
     
+    %% 인증 흐름
+    A -- Google 로그인 요청 --> D;
+    D -- 사용자 프로필 검증 --> H;
+
+    %% 백엔드 로직
+    D -- "사용자 워크플로우 생성 기록 등 CRUD" --> E;
+    D -- "생성된 파일 업로드 관리" --> F;
+    D -- 생성 작업 요청 (HTTPS) --> G_Proxy;
+    
+    %% 실시간 통신 (WebSocket)
     subgraph "실시간 통신 (WebSocket)"
         C <-. wss .-> D
         D <-. ws .-> G

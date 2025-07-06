@@ -19,22 +19,24 @@
 
 ## 2. 폴더 및 파일 구조
 
-이 저장소는 다음과 같은 구조로 구성되어 있습니다.
+이 저장소는 Docusaurus를 통해 문서화되어 있으며, 모든 마크다운 문서는 `website/docs` 디렉토리 내에 위치합니다.
 
--   **루트 디렉토리 (`/`):** 프로젝트 전체에 걸친 공통적인 맥락과 최상위 문서를 포함합니다.
-    -   `OVERVIEW.md`: 프로젝트의 비전, 목표, 핵심 기능을 요약합니다.
-    -   `ARCHITECTURE.md`: 프론트엔드-백엔드-인프라가 상호작용하는 방식에 대한 전체 시스템 설계도를 담습니다.
-    -   `INFRA_DEPLOYMENT.md`: CI/CD 파이프라인 및 클라우드 환경 설정에 대한 상세 가이드입니다.
-    -   `PRINCIPLES.md`: 우리가 따르는 기술적, 협업적 개발 원칙을 정의합니다.
-    -   `DECISION_LOG.md`: 주요 기술적 의사결정의 배경과 이유를 기록합니다. (ADR)
-    -   `ROADMAP.md`: 단기 및 장기 개발 계획을 정리합니다.
--   **`backend/` 디렉토리:** 백엔드(`comfy-surfai-backend`)와 관련된 상세한 기술 문서를 포함합니다.
-    -   `README.md`: 백엔드의 기술 스택, 폴더 구조, 실행 방법 등을 설명합니다.
-    -   `API_SPEC.md`: 주요 API 엔드포인트의 요청/응답 명세를 상세히 기술합니다.
-    -   `DATABASE.md`: 데이터베이스의 스키마, 테이블 간의 관계(ERD) 등을 정의합니다.
--   **`frontend/` 디렉토리:** 프론트엔드(`comfy-surfai-frontend-next`)와 관련된 상세한 기술 문서를 포함합니다.
-    -   `README.md`: 프론트엔드의 기술 스택, 폴더 구조, 상태 관리 전략 등을 설명합니다.
-    -   `COMPONENTS.md`: 재사용되는 주요 컴포넌트의 역할과 `props` 구조 등을 상세히 기술합니다.
+-   **`website/` 디렉토리:** Docusaurus 기반의 문서 웹사이트 관련 파일들을 포함합니다.
+    -   **`website/docs/`:** 모든 마크다운 문서의 실제 내용이 저장되는 곳입니다.
+        -   `OVERVIEW.md`: 프로젝트의 비전, 목표, 핵심 기능을 요약합니다.
+        -   `ARCHITECTURE.md`: 프론트엔드-백엔드-인프라가 상호작용하는 방식에 대한 전체 시스템 설계도를 담습니다.
+        -   `INFRA_DEPLOYMENT.md`: CI/CD 파이프라인 및 클라우드 환경 설정에 대한 상세 가이드입니다.
+        -   `PRINCIPLES.md`: 우리가 따르는 기술적, 협업적 개발 원칙을 정의합니다.
+        -   `DECISION_LOG.md`: 주요 기술적 의사결정의 배경과 이유를 기록합니다. (ADR)
+        -   `ROADMAP.md`: 단기 및 장기 개발 계획을 정리합니다.
+        -   **`backend/` 디렉토리:** 백엔드(`comfy-surfai-backend`)와 관련된 상세한 기술 문서를 포함합니다.
+            -   `README.md`: 백엔드의 기술 스택, 폴더 구조, 실행 방법 등을 설명합니다.
+            -   `API_SPEC.md`: 주요 API 엔드포인트의 요청/응답 명세를 상세히 기술합니다.
+            -   `DATABASE.md`: 데이터베이스의 스키마, 테이블 간의 관계(ERD) 등을 정의합니다.
+        -   **`frontend/` 디렉토리:** 프론트엔드(`comfy-surfai-frontend-next`)와 관련된 상세한 기술 문서를 포함합니다.
+            -   `README.md`: 프론트엔드의 기술 스택, 폴더 구조, 상태 관리 전략 등을 설명합니다.
+            -   `COMPONENTS.md`: 재사용되는 주요 컴포넌트의 역할과 `props` 구조 등을 상세히 기술합니다.
+-   **`sequence-diagram/` 디렉토리:** 시퀀스 다이어그램 원본 파일들을 포함합니다. (Docusaurus 문서에 포함되지 않음)
 
 ---
 
@@ -42,14 +44,14 @@
 
 ### 새로운 기능 개발 시
 
-1.  `ROADMAP.md`를 확인하여 현재 개발할 기능의 우선순위를 파악합니다.
-2.  `ARCHITECTURE.md`와 각 영역(`backend/`, `frontend/`)의 `README.md`를 참고하여 새로운 코드를 어떤 구조로 추가할지 결정합니다.
-3.  필요하다면, 새로운 API나 컴포넌트에 대한 내용을 `API_SPEC.md`나 `COMPONENTS.md`에 먼저 설계하고 기록합니다.
+1.  `website/docs/ROADMAP.md`를 확인하여 현재 개발할 기능의 우선순위를 파악합니다.
+2.  `website/docs/ARCHITECTURE.md`와 각 영역(`website/docs/backend/`, `website/docs/frontend/`)의 `README.md`를 참고하여 새로운 코드를 어떤 구조로 추가할지 결정합니다.
+3.  필요하다면, 새로운 API나 컴포넌트에 대한 내용을 `website/docs/backend/API_SPEC.md`나 `website/docs/frontend/COMPONENTS.md`에 먼저 설계하고 기록합니다.
 
 ### Gemini와의 협업 시
 
 -   새로운 채팅 세션을 시작할 때, 질문의 성격에 따라 이 저장소의 관련 파일 내용을 맥락으로 제공합니다.
-    -   **예시 1 (전체적인 방향성 질문):** `OVERVIEW.md`와 `ROADMAP.md` 내용을 전달합니다.
-    -   **예시 2 (백엔드 API 추가 요청):** `backend/README.md`, `backend/API_SPEC.md` 내용과 함께, 실제 백엔드 리포지토리의 관련 컨트롤러/서비스 코드 파일을 전달합니다.
+    -   **예시 1 (전체적인 방향성 질문):** `website/docs/OVERVIEW.md`와 `website/docs/ROADMAP.md` 내용을 전달합니다.
+    -   **예시 2 (백엔드 API 추가 요청):** `website/docs/backend/README.md`, `website/docs/backend/API_SPEC.md` 내용과 함께, 실제 백엔드 리포지토리의 관련 컨트롤러/서비스 코드 파일을 전달합니다.
 
 > 이 문서는 살아있는 유기체처럼, 프로젝트가 발전함에 따라 지속적으로 업데이트되어야 합니다.

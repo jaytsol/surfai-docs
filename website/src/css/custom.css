@@ -6,25 +6,42 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #4A00E0; /* Deep Purple */
+  --ifm-color-primary-dark: #3A00B0;
+  --ifm-color-primary-darker: #320099;
+  --ifm-color-primary-darkest: #2A0080;
+  --ifm-color-primary-light: #6A2EE0;
+  --ifm-color-primary-lighter: #7A4EE0;
+  --ifm-color-primary-lightest: #9A6EE0;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #8E2DE2; /* Lighter Purple for dark mode */
+  --ifm-color-primary-dark: #7A20CC;
+  --ifm-color-primary-darker: #6B1AA0;
+  --ifm-color-primary-darkest: #5C1580;
+  --ifm-color-primary-light: #9A3EE2;
+  --ifm-color-primary-lighter: #A84EE2;
+  --ifm-color-primary-lightest: #B65EE2;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Custom styles for hero section */
+.hero__title {
+  font-size: 3.5rem; /* 더 크게 */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white; /* 제목도 흰색으로 */
+}
+
+.hero__subtitle {
+  font-size: 1.5rem; /* 더 크게 */
+  font-weight: 400;
+  color: white; /* 흰색으로 변경하여 가독성 확보 */
+  max-width: 800px; /* 너무 길어지지 않도록 */
+  margin-left: auto;
+  margin-right: auto;
 }

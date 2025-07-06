@@ -11,32 +11,35 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: '살아있는 문서 (Living Documentation)',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default, // 아이콘은 일단 유지
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        코드가 진화하는 속도에 맞춰 문서도 함께 업데이트됩니다.
+        Gemini 에이전트가 코드 변경을 감지하고 문서 업데이트를 제안하여,
+        항상 최신 상태의 정확한 정보를 제공합니다.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: '코드로 관리하는 다이어그램 (Diagrams as Code)',
+    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default, // 아이콘은 일단 유지
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        복잡한 아키텍처 다이어그램과 시퀀스 다이어그램을 Mermaid.js 코드로 관리합니다.
+        Git으로 버전 관리가 가능하며, 텍스트 에디터에서 쉽게 수정하고
+        웹사이트에서 아름다운 다이어그램으로 렌더링됩니다.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: '모두를 위한 접근성 (Accessibility for All)',
+    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default, // 아이콘은 일단 유지
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        개발자는 Git 기반의 효율적인 워크플로우를 유지하고,
+        비개발 팀원은 별도의 설치 없이 웹 브라우저를 통해
+        항상 최신화된 문서를 손쉽게 조회하고 검색할 수 있습니다.
       </>
     ),
   },

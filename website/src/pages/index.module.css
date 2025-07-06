@@ -20,4 +20,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap; /* 버튼이 많아지면 줄바꿈 */
+  gap: 1rem; /* 버튼 간격 */
 }

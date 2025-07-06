@@ -1,3 +1,8 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
 .features {
   display: flex;
   align-items: center;
@@ -8,4 +13,26 @@
 .featureSvg {
   height: 200px;
   width: 200px;
+}
+
+/* Feature Card Styling */
+.features .col {
+  padding: 1rem;
+}
+
+.features .col > div {
+  background-color: var(--ifm-background-color);
+  border-radius: var(--ifm-border-radius);
+  box-shadow: var(--ifm-shadow-md);
+  padding: 2rem;
+  height: 100%; /* 모든 카드의 높이를 동일하게 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.features .col > div:hover {
+  box-shadow: var(--ifm-shadow-lg); /* 호버 시 그림자 강조 */
+  transform: translateY(-3px); /* 약간 위로 뜨는 효과 */
+  transition: all 0.2s ease-in-out;
 }

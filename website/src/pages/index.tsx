@@ -20,8 +20,23 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            to="/docs/OVERVIEW">
+            OVERVIEW
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/ARCHITECTURE">
+            ARCHITECTURE
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/backend/API_SPEC">
+            BACKEND
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/frontend/COMPONENTS">
+            FRONTEND
           </Link>
         </div>
       </div>
@@ -33,8 +48,8 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`SurfAI Docs - ${siteConfig.title}`}
+      description="SurfAI 프로젝트의 공식 문서입니다. 아키텍처, API 명세, 개발 원칙 및 로드맵을 확인하세요.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

@@ -18,52 +18,52 @@
 
 ```mermaid
 graph TD
-    subgraph "사용자"
-        A[사용자 컴퓨터/폰]
+    subgraph "사용자 환경"
+        A[사용자 브라우저]
     end
 
-    subgraph "Cloudflare (인터넷 문지기)"
-        B[인터넷 주소 관리, 보안, 속도 빠르게]
+    subgraph "Cloudflare"
+        B[DNS CDN WAF]
     end
 
-    subgraph "Google Cloud (인터넷 속의 컴퓨터)"
-        C[Google Cloud Run: 웹사이트 화면 (SurfAI.org)]
-        D[Google Cloud Run: 뒤에서 일하는 서버 (api.SurfAI.org)]
+    subgraph "Google Cloud Platform"
+        C[Google Cloud Run 프론트엔드 Next.js surfai.org]
+        D[Google Cloud Run 백엔드 NestJS api.surfai.org]
     end
 
-    subgraph "다른 회사 서비스"
-        E[데이터베이스 (정보 저장소)]
-        F[그림/영상 파일 저장소]
+    subgraph "외부 서비스 (3rd Party)"
+        E[관리형 PostgreSQL Supabase]
+        F[Cloudflare R2 파일 스토리지]
         H[Google OAuth 인증 서비스]
     end
     
-    subgraph "그림/영상 만드는 컴퓨터 (GPU 컴퓨터)"
-        G_Proxy[보안 문지기 (Nginx)]
-        G[AI 그림/영상 만드는 프로그램 (ComfyUI)]
-        G_Proxy -- 요청 전달 --> G
+    subgraph "연산 서버 (On-premise / VM)"
+        G_Proxy[Nginx 리버스 프록시]
+        G[ComfyUI GPU]
+        G_Proxy -- 프록시 패스 --> G
     end
 
-    %% --- 정보 흐름 설명 ---
+    %% --- 데이터 흐름 정의 ---
 
-    A -- 인터넷으로 접속 --> B;
-    B -- 웹사이트 주소로 --> C;
-    B -- 서버 주소로 --> D;
+    A -- HTTPS --> B;
+    B -- surfai.org --> C;
+    B -- api.surfai.org --> D;
     
-    C -- 서버에 요청 --> D;
+    C -- API 요청 (HTTPS) --> D;
     
-    %% 로그인 과정
+    %% 인증 흐름
     A -- Google 로그인 요청 --> D;
-    D -- 사용자 확인 --> H;
+    D -- 사용자 프로필 검증 --> H;
 
     %% 백엔드 로직
-    D -- "사용자 정보, 만드는 방법 저장/수정/삭제" --> E;
-    D -- "만들어진 그림/영상 파일 저장" --> F;
-    D -- 그림/영상 만들기 요청 --> G_Proxy;
+    D -- "사용자 워크플로우 생성 기록 등 CRUD" --> E;
+    D -- "생성된 파일 업로드 관리" --> F;
+    D -- 생성 작업 요청 (HTTPS) --> G_Proxy;
     
-    %% 실시간 소통 (WebSocket)
-    subgraph "실시간 소통"
-        C <-. 실시간 정보 .-> D
-        D <-. 실시간 정보 .-> G
+    %% 실시간 통신 (WebSocket)
+    subgraph "실시간 통신 (WebSocket)"
+        C <-. wss .-> D
+        D <-. ws .-> G
     end
 ```
 

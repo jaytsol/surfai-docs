@@ -22,7 +22,7 @@ This document defines the short-term and long-term development plans for the Sur
     -   Uploaded generated results (images/videos) to `Cloudflare R2`.
     -   Stored generation record metadata in the `PostgreSQL` database.
     -   Secure file viewing and download functionality via pre-signed URLs.
-    -   Established data retention policy (files automatically deleted after 7 days, DB records retained).
+    -   Established data retention policy (files automatically deleted after 2 days, DB records retained).
 -   **[Completed] Infrastructure and Deployment Automation:**
     -   Created Frontend/Backend `Dockerfile`.
     -   Deployed services using `Google Cloud Run` and connected custom domains (`surfai.org`, `api.surfai.org`).

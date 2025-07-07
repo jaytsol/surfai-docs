@@ -111,6 +111,17 @@ graph TD
 -   **Cloudflare R2:** 생성된 이미지/비디오 파일을 저장하는 객체 스토리지입니다. (비공개 버킷과 공개 버킷으로 분리 운영)
 -   **Cloudflare (전체):** `surfai.org` 도메인의 `DNS`를 관리하고, `WAF`, `CDN` 등의 보안 및 성능 최적화 기능을 제공합니다.
 
+### 마. 문서 시스템 (Documentation System) - `surfai-docs`
+
+-   **플랫폼:** `Vercel`
+-   **도메인:** `docs.surfai.org`
+-   **기술:** `Docusaurus`, `React`, `Markdown(MDX)`
+-   **핵심 역할:**
+    -   프로젝트의 모든 기술 문서, 아키텍처, 의사결정 로그 등을 정적 웹사이트 형태로 제공하는 **단일 진실 공급원(Single Source of Truth)** 역할을 합니다.
+    -   모든 문서는 `Markdown` 파일로 작성되어 `GitHub`에서 코드와 함께 버전 관리됩니다.
+    -   `Vercel`과의 `Git` 연동을 통해, `main` 브랜치에 변경사항이 푸시될 때마다 자동으로 사이트를 빌드하고 배포하는 CI/CD 파이프라인이 구축되어 있습니다.
+    -   다국어(i18n) 기능을 통해 한국어, 영어 등 여러 언어로 문서를 제공합니다.
+
 ---
 
 ## 4. 주요 데이터 흐름

@@ -50,9 +50,19 @@ SurfAI 서비스는 다음 두 가지 핵심 개념을 중심으로 구축됩니
 
 ---
 
-## 4. 기술적 목표 (Technical Goals)
+## 4. 기술 스택 (Tech Stack)
+
+-   **Frontend:** Next.js, React, TypeScript, Tailwind CSS
+-   **Backend:** NestJS, TypeScript, TypeORM, PostgreSQL
+-   **Infrastructure:** Docker, Google Cloud Run, Cloudflare R2, Nginx
+-   **Documentation:** Docusaurus, Gemini CLI, Mermaid
+
+---
+
+## 5. 기술적 목표 (Technical Goals)
 
 -   **안정성 및 확장성:** 모든 서비스를 `Docker` 컨테이너화하고 `Google Cloud Run`에 배포하여, 트래픽에 따라 자동으로 확장되는 안정적인 서버리스 아키텍처를 구축합니다.
 -   **보안:** `JWT`와 `HttpOnly` 쿠키를 이용한 안전한 인증, `CSRF` 및 `WAF`를 통한 웹 공격 방어, 역할 기반 접근 제어 등 다층적인 보안 체계를 적용합니다.
 -   **자동화된 워크플로우:** `GitHub Actions`를 이용한 CI/CD 파이프라인을 구축하여, 코드 변경 사항을 자동으로 테스트하고 배포하는 프로세스를 확립합니다.
 -   **유지보수성:** 프론트엔드와 백엔드를 명확히 분리하고, 각 내부에서도 모듈과 컴포넌트의 책임을 명확히 나누는 클린 아키텍처를 지향합니다.
+-   **살아있는 문서:** `Docusaurus`를 통해 모든 문서를 코드와 함께 `Git`으로 관리합니다. 이를 통해 항상 최신 상태의 정확한 문서를 모든 구성원이 쉽게 열람할 수 있는 환경을 구축합니다.

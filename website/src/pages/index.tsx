@@ -7,6 +7,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
 
 import styles from './index.module.css';
+import Translate from '@docusaurus/Translate';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -21,22 +22,22 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/OVERVIEW">
-            OVERVIEW
+            <Translate>OVERVIEW</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/ARCHITECTURE">
-            ARCHITECTURE
+            <Translate>ARCHITECTURE</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/backend/API_SPEC">
-            BACKEND
+            <Translate>BACKEND</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/frontend/COMPONENTS">
-            FRONTEND
+            <Translate>FRONTEND</Translate>
           </Link>
         </div>
       </div>

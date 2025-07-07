@@ -355,5 +355,21 @@
   "sidebar.docsSidebar.category.프론트엔드": {
     "message": "Frontend",
     "description": "The label for category 프론트엔드 in sidebar docsSidebar"
+  },
+  "default.overview.link.text": {
+    "message": "OVERVIEW",
+    "description": "The text for the overview link"
+  },
+  "default.architecture.link.text": {
+    "message": "ARCHITECTURE",
+    "description": "The text for the architecture link"
+  },
+  "default.backend.link.text": {
+    "message": "BACKEND",
+    "description": "The text for the backend link"
+  },
+  "default.frontend.link.text": {
+    "message": "FRONTEND",
+    "description": "The text for the frontend link"
   }
 }

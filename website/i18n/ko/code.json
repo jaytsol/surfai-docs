@@ -339,5 +339,21 @@
   "theme.tags.tagsPageTitle": {
     "message": "태그",
     "description": "The title of the tag list page"
+  },
+  "default.overview.link.text": {
+    "message": "개요",
+    "description": "The text for the overview link"
+  },
+  "default.architecture.link.text": {
+    "message": "아키텍처",
+    "description": "The text for the architecture link"
+  },
+  "default.backend.link.text": {
+    "message": "백엔드",
+    "description": "The text for the backend link"
+  },
+  "default.frontend.link.text": {
+    "message": "프론트엔드",
+    "description": "The text for the frontend link"
   }
 }

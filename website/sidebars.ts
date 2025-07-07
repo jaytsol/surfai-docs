@@ -10,6 +10,7 @@ const sidebars: SidebarsConfig = {
         'PRINCIPLES',
         'ROADMAP',
         'DECISION_LOG',
+        'DOCS_AUTOMATION_PROCESS',
       ],
     },
     {

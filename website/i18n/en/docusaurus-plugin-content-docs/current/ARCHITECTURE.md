@@ -1,3 +1,4 @@
+# Architecture
 🏛️ Project Architecture: SurfAI
 Last Updated: June 29, 2025
 

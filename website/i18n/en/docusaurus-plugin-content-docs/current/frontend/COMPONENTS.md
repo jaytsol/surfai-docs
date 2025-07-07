@@ -1,3 +1,4 @@
+# Components
 🧩 Frontend Key Components Specification
 Last Updated: June 29, 2025
 

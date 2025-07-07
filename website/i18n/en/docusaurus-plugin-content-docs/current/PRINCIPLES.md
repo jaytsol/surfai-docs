@@ -1,4 +1,4 @@
-# 🧭 Development Principles: SurfAI
+# Development Principles
 
 > **Last Updated:** June 29, 2025
 >

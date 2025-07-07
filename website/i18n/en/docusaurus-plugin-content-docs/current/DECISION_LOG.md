@@ -1,3 +1,4 @@
+# Decision Log
 ✍️ Major Decision Log (Architecture Decision Record)
 Last Updated: June 29, 2025
 

@@ -1,4 +1,4 @@
-# 📡 Backend API Specification
+# API Specification
 
 > **Last Updated:** June 29, 2025
 >

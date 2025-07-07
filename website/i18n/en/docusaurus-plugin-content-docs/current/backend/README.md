@@ -1,4 +1,4 @@
-⚙️ Backend Architecture and Folder Structure
+# Architecture and Folder Structure
 Last Updated: June 29, 2025
 
 This document explains the technology stack, architectural principles, main folder structure, and execution methods of the `comfy-surfai-backend` repository.

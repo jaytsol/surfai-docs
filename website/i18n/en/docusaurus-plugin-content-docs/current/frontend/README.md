@@ -1,4 +1,4 @@
-# 🖼️ Frontend Architecture and Folder Structure
+# Architecture and Folder Structure
 
 > Last Updated: June 29, 2025
 

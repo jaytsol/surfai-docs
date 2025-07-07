@@ -1,3 +1,5 @@
+# 의사결정 로그
+
 ✍️ 주요 의사결정 로그 (Architecture Decision Record)
 최종 업데이트: 2025년 6월 29일
 

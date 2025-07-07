@@ -1,4 +1,4 @@
-🗄️ Database Schema: SurfAI
+# Database Schema
 Last Updated: June 29, 2025
 
 This document details the PostgreSQL database schema, main tables, and relationships between tables for the SurfAI project. All tables and columns are defined based on TypeORM entities.

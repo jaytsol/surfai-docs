@@ -1,22 +1,22 @@
 {
   "version.label": {
-    "message": "Next",
+    "message": "다음",
     "description": "The label for version current"
   },
   "sidebar.docsSidebar.category.Project Overview": {
-    "message": "Project Overview",
+    "message": "프로젝트 개요",
     "description": "The label for category Project Overview in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.Architecture": {
-    "message": "Architecture",
+    "message": "아키텍처",
     "description": "The label for category Architecture in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.Backend": {
-    "message": "Backend",
+    "message": "백엔드",
     "description": "The label for category Backend in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.Frontend": {
-    "message": "Frontend",
+    "message": "프론트엔드",
     "description": "The label for category Frontend in sidebar docsSidebar"
   }
 }

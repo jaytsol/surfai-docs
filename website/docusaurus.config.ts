@@ -86,7 +86,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/jaytsol/comfy-surfai',
+          href: 'https://github.com/jaytsol',
           label: 'GitHub',
           position: 'right',
         },
@@ -117,7 +117,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/jaytsol/comfy-surfai',
+              href: 'https://github.com/jaytsol',
             },
           ],
         },

@@ -340,22 +340,6 @@
     "message": "Tags",
     "description": "The title of the tag list page"
   },
-  "sidebar.docsSidebar.category.프로젝트 개요": {
-    "message": "Project Overview",
-    "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
-  },
-  "sidebar.docsSidebar.category.아키텍처": {
-    "message": "Architecture",
-    "description": "The label for category 아키텍처 in sidebar docsSidebar"
-  },
-  "sidebar.docsSidebar.category.백엔드": {
-    "message": "Backend",
-    "description": "The label for category 백엔드 in sidebar docsSidebar"
-  },
-  "sidebar.docsSidebar.category.프론트엔드": {
-    "message": "Frontend",
-    "description": "The label for category 프론트엔드 in sidebar docsSidebar"
-  },
   "default.overview.link.text": {
     "message": "OVERVIEW",
     "description": "The text for the overview link"

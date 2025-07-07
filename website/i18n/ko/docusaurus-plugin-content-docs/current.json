@@ -5,18 +5,18 @@
   },
   "sidebar.docsSidebar.category.projectOverview": {
     "message": "프로젝트 개요",
-    "description": "The label for category projectOverview in sidebar docsSidebar"
+    "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.architecture": {
     "message": "아키텍처",
-    "description": "The label for category architecture in sidebar docsSidebar"
+    "description": "The label for category 아키텍처 in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.backend": {
     "message": "백엔드",
-    "description": "The label for category backend in sidebar docsSidebar"
+    "description": "The label for category 백엔드 in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.frontend": {
     "message": "프론트엔드",
-    "description": "The label for category frontend in sidebar docsSidebar"
+    "description": "The label for category 프론트엔드 in sidebar docsSidebar"
   }
 }

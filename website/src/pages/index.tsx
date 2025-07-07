@@ -22,22 +22,22 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/OVERVIEW">
-            <Translate>OVERVIEW</Translate>
+            <Translate id="default.overview.link.text">OVERVIEW</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/ARCHITECTURE">
-            <Translate>ARCHITECTURE</Translate>
+            <Translate id="default.architecture.link.text">ARCHITECTURE</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/backend/API_SPEC">
-            <Translate>BACKEND</Translate>
+            <Translate id="default.backend.link.text">BACKEND</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/frontend/COMPONENTS">
-            <Translate>FRONTEND</Translate>
+            <Translate id="default.frontend.link.text">FRONTEND</Translate>
           </Link>
         </div>
       </div>

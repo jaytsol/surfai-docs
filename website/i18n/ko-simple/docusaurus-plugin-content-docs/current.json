@@ -1,22 +1,22 @@
 {
   "version.label": {
-    "message": "다음",
+    "message": "Next",
     "description": "The label for version current"
   },
-  "sidebar.docsSidebar.category.Project Overview": {
+  "sidebar.docsSidebar.category.프로젝트 개요": {
     "message": "프로젝트 개요",
-    "description": "The label for category Project Overview in sidebar docsSidebar"
+    "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
   },
-  "sidebar.docsSidebar.category.Architecture": {
+  "sidebar.docsSidebar.category.아키텍처": {
     "message": "아키텍처",
-    "description": "The label for category Architecture in sidebar docsSidebar"
+    "description": "The label for category 아키텍처 in sidebar docsSidebar"
   },
-  "sidebar.docsSidebar.category.Backend": {
+  "sidebar.docsSidebar.category.백엔드": {
     "message": "백엔드",
-    "description": "The label for category Backend in sidebar docsSidebar"
+    "description": "The label for category 백엔드 in sidebar docsSidebar"
   },
-  "sidebar.docsSidebar.category.Frontend": {
+  "sidebar.docsSidebar.category.프론트엔드": {
     "message": "프론트엔드",
-    "description": "The label for category Frontend in sidebar docsSidebar"
+    "description": "The label for category 프론트엔드 in sidebar docsSidebar"
   }
 }

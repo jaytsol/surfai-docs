@@ -21,6 +21,10 @@
     "message": "페이지에 오류가 발생하였습니다.",
     "description": "The title of the fallback page when the page crashed"
   },
+  "theme.BackToTopButton.buttonAriaLabel": {
+    "message": "맨 위로 스크롤하기",
+    "description": "The ARIA label for the back to top button"
+  },
   "theme.blog.archive.title": {
     "message": "게시물 목록",
     "description": "The page & hero title of the blog archive page"
@@ -28,10 +32,6 @@
   "theme.blog.archive.description": {
     "message": "게시물 목록",
     "description": "The page & hero description of the blog archive page"
-  },
-  "theme.BackToTopButton.buttonAriaLabel": {
-    "message": "맨 위로 스크롤하기",
-    "description": "The ARIA label for the back to top button"
   },
   "theme.blog.paginator.navAriaLabel": {
     "message": "블로그 게시물 목록 탐색",
@@ -97,6 +97,14 @@
     "message": "다음",
     "description": "The label used to navigate to the next doc"
   },
+  "theme.docs.tagDocListPageTitle.nDocsTagged": {
+    "message": "{count}개 문서가",
+    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.docs.tagDocListPageTitle": {
+    "message": "{nDocsTagged} \"{tagName}\" 태그에 분류되었습니다",
+    "description": "The title of the page for a docs tag"
+  },
   "theme.docs.versionBadge.label": {
     "message": "버전: {versionLabel}"
   },
@@ -116,21 +124,13 @@
     "message": "최신 버전",
     "description": "The label used for the latest version suggestion link label"
   },
-  "theme.docs.tagDocListPageTitle.nDocsTagged": {
-    "message": "{count}개 문서가",
-    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
-  },
-  "theme.docs.tagDocListPageTitle": {
-    "message": "{nDocsTagged} \"{tagName}\" 태그에 분류되었습니다",
-    "description": "The title of the page for a docs tag"
+  "theme.common.editThisPage": {
+    "message": "페이지 편집",
+    "description": "The link label to edit the current page"
   },
   "theme.common.headingLinkTitle": {
     "message": "{heading}에 대한 직접 링크",
     "description": "Title for link to heading"
-  },
-  "theme.common.editThisPage": {
-    "message": "페이지 편집",
-    "description": "The link label to edit the current page"
   },
   "theme.lastUpdated.atDate": {
     "message": " {date}에",
@@ -228,10 +228,6 @@
     "message": "약 {readingTime}분",
     "description": "Pluralized label for \"{readingTime} min read\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
   },
-  "theme.CodeBlock.wordWrapToggle": {
-    "message": "줄 바꿈 전환",
-    "description": "The title attribute for toggle word wrapping button of code block lines"
-  },
   "theme.CodeBlock.copy": {
     "message": "복사",
     "description": "The copy button label on code blocks"
@@ -244,6 +240,14 @@
     "message": "클립보드에 코드 복사",
     "description": "The ARIA label for copy code blocks button"
   },
+  "theme.CodeBlock.wordWrapToggle": {
+    "message": "줄 바꿈 전환",
+    "description": "The title attribute for toggle word wrapping button of code block lines"
+  },
+  "theme.docs.breadcrumbs.home": {
+    "message": "홈",
+    "description": "The ARIA label for the home page in the breadcrumbs"
+  },
   "theme.docs.sidebar.collapseButtonTitle": {
     "message": "사이드바 숨기기",
     "description": "The title attribute for collapse button of doc sidebar"
@@ -251,10 +255,6 @@
   "theme.docs.sidebar.collapseButtonAriaLabel": {
     "message": "사이드바 숨기기",
     "description": "The title attribute for collapse button of doc sidebar"
-  },
-  "theme.docs.breadcrumbs.home": {
-    "message": "홈",
-    "description": "The ARIA label for the home page in the breadcrumbs"
   },
   "theme.docs.sidebar.navAriaLabel": {
     "message": "문서 사이드바",
@@ -339,21 +339,5 @@
   "theme.tags.tagsPageTitle": {
     "message": "태그",
     "description": "The title of the tag list page"
-  },
-  "sidebar.docsSidebar.category.프로젝트 개요": {
-    "message": "한눈에 보는 프로젝트",
-    "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
-  },
-  "sidebar.docsSidebar.category.아키텍처": {
-    "message": "시스템 설계도",
-    "description": "The label for category 아키텍처 in sidebar docsSidebar"
-  },
-  "sidebar.docsSidebar.category.백엔드": {
-    "message": "서버 개발 이야기",
-    "description": "The label for category 백엔드 in sidebar docsSidebar"
-  },
-  "sidebar.docsSidebar.category.프론트엔드": {
-    "message": "화면 개발 이야기",
-    "description": "The label for category 프론트엔드 in sidebar docsSidebar"
   }
 }

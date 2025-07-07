@@ -1,4 +1,4 @@
-# 문서 자동화 프로세스 (Docs Automation Process)
+# 문서 자동화 프로세스
 
 ## 개요
 

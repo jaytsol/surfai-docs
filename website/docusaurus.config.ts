@@ -28,6 +28,30 @@ const config: Config = {
   i18n: {
     defaultLocale: 'ko',
     locales: ['ko', 'en', 'ko-simple'],
+    path: 'i18n',
+    localeConfigs: {
+      ko: {
+        label: '한국어',
+        direction: 'ltr',
+        htmlLang: 'ko-KR',
+        calendar: 'gregory',
+        path: 'ko',
+      },
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+      'ko-simple': {
+        label: '한국어(SIMPLE)',
+        direction: 'ltr',
+        htmlLang: 'ko-KR',
+        calendar: 'gregory',
+        path: 'ko-simple',
+      },
+    },
   },
 
   presets: [

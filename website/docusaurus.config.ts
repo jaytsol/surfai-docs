@@ -86,8 +86,8 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/jaytsol',
-          label: 'GitHub',
+          href: 'https://surfai.org',
+          label: 'Surfai',
           position: 'right',
         },
         {
@@ -100,15 +100,11 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Surfai Project',
           items: [
             {
-              label: 'Overview',
-              to: '/docs/OVERVIEW',
-            },
-            {
-              label: 'Architecture',
-              to: '/docs/ARCHITECTURE',
+              label: 'Surfai',
+              href: 'https://surfai.org',
             },
           ],
         },

@@ -45,6 +45,14 @@ graph TD
         G_Proxy -- 프록시 패스 --> G
     end
 
+    subgraph "문서 시스템 (Github + Vercel)"
+        I[Docusaurus 문서 웹사이트]
+        J[Github Repository 'surfai-docs']
+        I -- 배포 --> B
+        A_Dev -- 문서 수정 요청 --> J
+        J -- 자동 배포 (Vercel) --> I
+    end
+
     %% --- 데이터 흐름 정의 ---
 
     A -- HTTPS --> B;

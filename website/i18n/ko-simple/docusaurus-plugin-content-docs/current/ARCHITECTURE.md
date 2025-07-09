@@ -25,13 +25,13 @@ graph TD
         A_Dev[개발자/문서 작성자]
     end
 
-    subgraph "클라우드플레어"
+    subgraph "CloudFlare"
         B[인터넷 주소 관리, 웹사이트 속도 빠르게, 나쁜 공격 막기]
     end
 
-    subgraph "구글 클라우드 플랫폼"
-        C[구글 클라우드 런 웹사이트 Next.js surfai.org]
-        D[구글 클라우드 런 서버 NestJS api.surfai.org]
+    subgraph "Google Cloud Platform"
+        C[Google Cloud Run 웹사이트 Next.js surfai.org]
+        D[Google Cloud Run Server NestJS api.surfai.org]
     end
 
     subgraph "다른 서비스"
@@ -46,31 +46,31 @@ graph TD
         G_Proxy -- 연결 --> G
     end
 
-    subgraph "문서 시스템 (깃허브 + 베르셀)"
-        I[도쿠사우루스 문서 웹사이트]
-        J[깃허브 저장소<br>(surfai-docs)]
+    subgraph "문서 시스템 (Github + Vercel)"
+        I[Docusaurus 문서 웹사이트]
+        J[Github Repository 'surfai-docs']
         I -- 배포 --> B
-        A_Dev -- 문서 수정 (요청) --> J
-        J -- 자동 배포 (베르셀) --> I
+        A_Dev -- 문서 수정 요청 --> J
+        J -- 자동 배포 (Vercel) --> I
     end
 
     %% --- 데이터 흐름 설명 ---
 
-    A -- 안전한 연결 --> B;
-    B -- 웹사이트 주소 --> C;
-    B -- 서버 주소 --> D;
-    B -- 문서 주소 --> I;
+    A -- 안전한 연결 --> B
+    B -- 웹사이트 주소 --> C
+    B -- 서버 주소 --> D
+    B -- 문서 주소 --> I
     
-    C -- 서버 요청 (안전한 연결) --> D;
+    C -- 서버 요청 (안전한 연결) --> D
     
     %% 로그인 과정
-    A -- 구글 로그인 요청 --> D;
-    D -- 사용자 확인 --> H;
+    A -- 구글 로그인 요청 --> D
+    D -- 사용자 확인 --> H
 
     %% 서버 작업
-    D -- "사용자 작업 기록 등 저장/수정/삭제" --> E;
-    D -- "만들어진 파일 올리기 관리" --> F;
-    D -- 그림/영상 만들기 요청 (안전한 연결) --> G_Proxy;
+    D -- 데이터 저장/수정 --> E
+    D -- 파일 업로드 관리 --> F
+    D -- 생성 요청 --> G_Proxy
     
     %% 실시간 대화 (웹소켓)
     subgraph "실시간 대화 (웹소켓)"

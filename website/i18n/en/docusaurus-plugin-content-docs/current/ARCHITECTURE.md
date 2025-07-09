@@ -48,7 +48,7 @@ graph TD
 
     subgraph "Documentation System (GitHub + Vercel)"
         I[Docusaurus Static Site]
-        J[GitHub Repository<br>(surfai-docs)]
+        J[GitHub Repository - surfai-docs]
         I -- Deployment --> B
         A_Dev -- Contribution (Pull Request) --> J
         J -- CI/CD (Vercel) --> I
@@ -56,21 +56,21 @@ graph TD
 
     %% --- Data Flow Definition ---
 
-    A -- HTTPS --> B;
-    B -- surfai.org --> C;
-    B -- api.surfai.org --> D;
-    B -- docs.surfai.org --> I;
+    A -- HTTPS --> B
+    B -- surfai.org --> C
+    B -- api.surfai.org --> D
+    B -- docs.surfai.org --> I
     
-    C -- API Request (HTTPS) --> D;
+    C -- API Request (HTTPS) --> D
     
     %% Authentication Flow
-    A -- Google Login Request --> D;
-    D -- User Profile Verification --> H;
+    A -- Google Login Request --> D
+    D -- User Profile Verification --> H
 
     %% Backend Logic
-    D -- "User Workflow Generation Records etc. CRUD" --> E;
-    D -- "Manage Uploaded Files" --> F;
-    D -- Generation Job Request (HTTPS) --> G_Proxy;
+    D -- "User Workflow Generation Records etc. CRUD" --> E
+    D -- "Manage Uploaded Files" --> F
+    D -- Generation Job Request (HTTPS) --> G_Proxy
     
     %% Real-time Communication (WebSocket)
     subgraph "Real-time Communication (WebSocket)"

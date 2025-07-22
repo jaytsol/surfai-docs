@@ -138,3 +138,58 @@
 ### 4.8 워크플로우 템플릿 삭제
 -   **Endpoint:** `DELETE /:id`
 -   **Successful Response (`204 No Content`):** 응답 본문 없음.
+
+---
+
+## 5. 코인 (Coin) API
+
+### 5.1 일반 사용자 - 코인 차감
+
+> **Controller:** `CoinController`
+> **Base Path:** `/coin`
+> **인증:** Access Token 필요
+
+-   **Endpoint:** `POST /deduct`
+-   **설명:** 로그인된 사용자의 코인을 차감합니다. 이미지 생성과 같은 서비스 이용 시 사용됩니다.
+-   **Request Body:** `DeductCoinDto`
+    ```json
+    {
+      "amount": 100, // 차감할 코인 양
+      "reason": "image_generation", // 차감 이유 (CoinTransactionReason enum 값 중 하나)
+      "relatedEntityId": "uuid-of-generation-request" // (선택 사항) 관련 엔티티 ID
+    }
+    ```
+-   **Successful Response (`200 OK`):** `User` (업데이트된 사용자 정보)
+-   **Error Responses:** `400 Bad Request` (유효성 검사 실패), `402 Payment Required` (코인 잔액 부족)
+
+### 5.2 관리자 - 사용자 코인 관리
+
+> **Controller:** `AdminCoinController`
+> **Base Path:** `/admin/coin`
+> **인증:** Access Token 및 Admin 역할 필요
+
+#### 5.2.1 사용자 코인 추가
+-   **Endpoint:** `POST /add/:userId`
+-   **설명:** 특정 사용자에게 코인을 추가합니다.
+-   **Request Body:** `UpdateUserCoinDto`
+    ```json
+    {
+      "amount": 100, // 추가할 코인 양
+      "reason": "admin_adjustment" // 추가 이유 (CoinTransactionReason enum 값 중 하나)
+    }
+    ```
+-   **Successful Response (`200 OK`):** `User` (업데이트된 사용자 정보)
+-   **Error Responses:** `400 Bad Request` (유효성 검사 실패), `404 Not Found` (사용자 없음)
+
+#### 5.2.2 사용자 코인 차감
+-   **Endpoint:** `POST /deduct/:userId`
+-   **설명:** 특정 사용자에게서 코인을 차감합니다.
+-   **Request Body:** `UpdateUserCoinDto`
+    ```json
+    {
+      "amount": 50, // 차감할 코인 양
+      "reason": "admin_adjustment" // 차감 이유 (CoinTransactionReason enum 값 중 하나)
+    }
+    ```
+-   **Successful Response (`200 OK`):** `User` (업데이트된 사용자 정보)
+-   **Error Responses:** `400 Bad Request` (유효성 검사 실패), `402 Payment Required` (코인 잔액 부족), `404 Not Found` (사용자 없음)

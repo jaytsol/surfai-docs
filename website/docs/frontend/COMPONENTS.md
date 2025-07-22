@@ -13,13 +13,14 @@
 ### 가. `AuthContext.tsx`
 
 -   **위치:** `src/contexts/AuthContext.tsx`
--   **역할:** 사용자의 인증 상태(로그인 여부, 사용자 정보)를 전역적으로 관리하고, 관련 함수(로그인, 로그아웃)를 제공하는 **"인증 상태 관리자"**입니다.
+-   **역할:** 사용자의 인증 상태(로그인 여부, 사용자 정보, 코인 잔액)를 전역적으로 관리하고, 관련 함수(로그인, 로그아웃, 프로필 업데이트)를 제공하는 **"인증 및 사용자 상태 관리자"**입니다.
 -   **주요 제공 값 (`value`):**
     -   `user: User | null`: 현재 로그인된 사용자의 정보 객체. 비로그인 시 `null`.
     -   `isLoading: boolean`: 앱 시작 시 또는 로그인/로그아웃 시 인증 상태를 확인하는 동안 `true`가 됩니다.
     -   `login(credentials)`: 일반 이메일/비밀번호 로그인을 처리하는 함수.
     -   `logout()`: 사용자를 로그아웃 처리하고 관련 쿠키를 삭제하는 함수.
     -   `fetchUserProfile()`: 서버에 프로필 정보를 요청하여 `user` 상태를 갱신하는 함수.
+    -   `setUser()`: 클라이언트 측에서 `user` 객체를 직접 업데이트하는 함수 (예: 낙관적 업데이트).
 
 ### 나. `useComfyWebSocket.ts`
 
@@ -50,10 +51,11 @@
 
 -   **역할:** AI 이미지/비디오 생성의 메인 페이지.
 -   **주요 로직:**
+    -   `useAuth` 훅을 통해 사용자 정보(코인 잔액 포함)를 가져와 표시합니다.
     -   `useComfyWebSocket` 훅을 사용하여 실시간 상태를 관리합니다.
     -   워크플로우 템플릿 목록을 API로 불러와 `TemplateForm`에 전달합니다.
-    -   `TemplateForm`에서 입력받은 파라미터로 생성 API(`POST /api/generate`)를 호출합니다.
-    -   `SessionGallery`를 통해 현재 세션의 생성 결과물을 표시합니다.
+    -   `TemplateForm`에서 입력받은 파라미터로 코인 차감 API(`POST /api/coin/deduct`)를 먼저 호출하고, 성공 시에만 이미지 생성 API(`POST /api/generate`)를 호출합니다.
+    -   `SessionGallery`를 통해 현재 세션의 결과물을 임시로 확인하는 기능.
     -   `ImageLightbox`의 열림/닫힘 상태를 관리합니다.
 
 ### 나. `history/page.tsx`
@@ -80,7 +82,17 @@
 
 `src/components/` 디렉토리에 위치하며, 특정 UI 조각이나 기능을 담당하는 "단순한(Dumb)" 컴포넌트입니다.
 
-### 가. `ParameterMappingForm.tsx`
+### 가. `TemplateForm.tsx`
+
+-   **위치:** `src/components/template/TemplateForm.tsx`
+-   **역할:** 워크플로우 템플릿 선택 및 파라미터 입력을 위한 폼 UI를 제공합니다. 사용자 코인 잔액을 표시하고, 이미지 생성 버튼을 포함합니다.
+-   **주요 기능:**
+    -   템플릿 선택 드롭다운.
+    -   선택된 템플릿의 `parameter_map`에 따라 동적으로 파라미터 입력 필드를 렌더링.
+    -   `user` prop을 통해 받은 코인 잔액을 이미지 생성 버튼 옆에 표시.
+    -   `isSubmitting` 상태에 따라 버튼 비활성화 및 텍스트 변경.
+
+### 나. `ParameterMappingForm.tsx`
 
 -   **위치:** `src/components/admin/ParameterMappingForm.tsx`
 -   **역할:** 워크플로우 템플릿의 `parameter_map`을 생성하고 수정하는 데 사용되는 매우 복잡하고 동적인 폼 UI 전체를 담당하는 **"파라미터 매핑 전문 컴포넌트"**입니다.
@@ -98,8 +110,9 @@
         -   이미 추가된 사전 설정은 '파라미터 추가' 드롭다운에서 비활성화됩니다.
     -   **상태 관리:** `props`로 `parameterMap` 상태와 `setParameterMap` 함수를 직접 전달받아, 부모 컴포넌트(페이지)의 상태를 직접 제어합니다.
 
-### 나. `GeneratedItem.tsx`
+### 다. `GeneratedItem.tsx`
 
+-   **위치:** `src/components/admin/GeneratedItem.tsx`
 -   **역할:** 갤러리에 표시되는 개별 결과물 카드 하나를 렌더링합니다. `SessionGallery`와 `HistoryGallery`에서 모두 재사용됩니다.
 -   **주요 기능:**
     -   `prop`으로 받은 `item` 데이터(`HistoryItemData`)를 기반으로 UI를 그립니다.
@@ -108,8 +121,9 @@
     -   `item.createdAt`을 기준으로 파일 만료 여부를 판단하고, 만료 시 대체 UI를 보여줍니다.
     -   확대보기/다운로드/삭제 버튼을 포함하며, 클릭 시 부모로부터 받은 핸들러 함수(`onImageClick`, `onDelete`)를 호출합니다.
 
-### 다. `ImageLightbox.tsx`
+### 라. `ImageLightbox.tsx`
 
+-   **위치:** `src/components/admin/ImageLightbox.tsx`
 -   **역할:** 사용자가 갤러리에서 이미지를 클릭했을 때, 화면 전체를 덮으며 확대된 이미지와 상세 메타데이터를 보여주는 모달입니다.
 -   **주요 기능:**
     -   `prop`으로 받은 `item` 객체(`HistoryItemData | null`)를 기반으로 렌더링됩니다. `item`이 `null`이면 숨겨집니다.

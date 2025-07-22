@@ -28,10 +28,26 @@
 | `imageUrl`                  | `varchar(2048)`  | Nullable                   | 사용자의 프로필 사진 URL. (Google 또는 기본 이미지)        |
 | `role`                      | `enum`           | Not Null, Default=`'user'` | 사용자의 역할. (`admin` 또는 `user`)                       |
 | `currentHashedRefreshToken` | `varchar`        | Nullable, `Select=false`   | JWT Refresh Token의 bcrypt 해시값. 로그아웃 시 NULL로 설정. |
+| `coinBalance`               | `integer`        | Not Null, Default=`0`      | 사용자의 현재 코인 잔액.                                   |
 | `createdAt`                 | `timestamptz`    | Not Null                   | 레코드 생성 시각 (자동 생성)                               |
 | `updatedAt`                 | `timestamptz`    | Not Null                   | 레코드 마지막 수정 시각 (자동 업데이트)                    |
 
-### 나. `workflows` 테이블
+### 나. `coin_transactions` 테이블
+
+사용자의 코인 거래 내역을 기록하는 테이블입니다. 코인 획득 및 소모에 대한 모든 기록이 저장됩니다.
+
+| 컬럼명           | 타입      | 제약 조건                               | 설명                                                                 |
+| ---------------- | --------- | --------------------------------------- | -------------------------------------------------------------------- |
+| `id`             | `integer` | **PK**, Auto-increment                  | 코인 거래 내역의 고유 식별자                                         |
+| `userId`         | `integer` | Not Null, **FK** (`users.id`)           | 거래를 수행한 사용자의 ID.                                           |
+| `type`           | `enum`    | Not Null                                | 거래 유형 (`gain` 또는 `deduct`).                                    |
+| `amount`         | `integer` | Not Null                                | 변동된 코인 양 (항상 양수).                                          |
+| `reason`         | `enum`    | Not Null                                | 거래 이유 (`purchase`, `promotion`, `admin_adjustment`, `image_generation`, `video_generation` 등). |
+| `relatedEntityId`| `varchar` | Nullable                                | 관련 엔티티의 ID (예: 이미지 생성 시 `generated_output.id`).         |
+| `currentBalance` | `integer` | Not Null                                | 이 거래 후 사용자의 최종 코인 잔액.                                  |
+| `createdAt`      | `timestamptz` | Not Null                                | 레코드 생성 시각.                                                    |
+
+### 다. `workflows` 테이블
 
 워크플로우 "템플릿"과, 사용자가 파라미터를 저장한 "나만의 워크플로우" 인스턴스를 모두 관리하는 테이블입니다.
 
@@ -40,18 +56,21 @@
 | `id`                 | `integer` | **PK**, Auto-increment                  | 워크플로우의 고유 식별자                                             |
 | `name`               | `varchar` | Not Null                                | 워크플로우 템플릿 또는 인스턴스의 이름.                              |
 | `description`        | `text`    | Nullable                                | 워크플로우에 대한 상세 설명.                                         |
-| `definition`         | `jsonb`   | Nullable                                | ComfyUI의 원본 워크플로우 API 포맷 JSON. (주로 `isTemplate: true`일 때 사용) |
+| `category`           | `varchar` | Nullable                                | 템플릿 카테고리 (예: `image`, `video`).                              |
+| `definition`         | `jsonb`   | Nullable                                | ComfyUI의 원본 워크플로우 API 포맷 JSON.                             |
 | `parameter_map`      | `jsonb`   | Nullable                                | 동적 파라미터와 실제 노드를 매핑하는 정보.                           |
 | `previewImageUrl`    | `text`    | Nullable                                | 목록에서 보여줄 템플릿의 미리보기 이미지 URL.                        |
 | `tags`               | `text[]`  | Nullable                                | 템플릿 분류를 위한 태그 배열.                                        |
-| `isTemplate`         | `boolean` | Not Null, Default=`true`                | `true`이면 관리자가 만든 템플릿, `false`이면 사용자가 저장한 인스턴스. |
+| `cost`               | `integer` | Not Null, Default=`1`                   | 이 워크플로우 템플릿을 사용하는 데 필요한 코인 비용.                 |
 | `isPublicTemplate`   | `boolean` | Not Null, Default=`false`               | `true`이면 모든 사용자에게 공개되는 템플릿.                          |
+| `user_parameter_values` | `jsonb`   | Nullable                                | 사용자 정의 파라미터 값.                                             |
+| `isTemplate`         | `boolean` | Not Null, Default=`true`                | `true`이면 관리자가 만든 템플릿, `false`이면 사용자 인스턴스.        |
 | `ownerUserId`        | `integer` | Nullable, **FK** (`users.id`)           | 이 워크플로우의 소유자 ID.                                           |
-| `sourceTemplateId`   | `integer` | Nullable, **FK** (`workflows.id`)       | 이 워크플로우가 파생된 원본 템플릿의 ID. (`isTemplate: false`일 때 사용) |
+| `sourceTemplateId`   | `integer` | Nullable, **FK** (`workflows.id`)       | 이 워크플로우가 파생된 원본 템플릿의 ID.                             |
 | `createdAt`          | `timestamptz` | Not Null                                | 레코드 생성 시각                                                     |
 | `updatedAt`          | `timestamptz` | Not Null                                | 레코드 마지막 수정 시각                                              |
 
-### 다. `generated_outputs` 테이블
+### 라. `generated_outputs` 테이블
 
 사용자가 생성한 모든 결과물(이미지/비디오)에 대한 메타데이터를 저장하는 테이블입니다.
 
@@ -74,6 +93,7 @@
 
 -   **User (1) : (N) Workflow:** 한 명의 사용자는 여러 개의 워크플로우 인스턴스를 소유할 수 있습니다.
 -   **User (1) : (N) GeneratedOutput:** 한 명의 사용자는 여러 개의 결과물을 생성할 수 있습니다.
+-   **User (1) : (N) CoinTransaction:** 한 명의 사용자는 여러 개의 코인 거래 내역을 가질 수 있습니다.
 -   **Workflow (1) : (N) Workflow:** 하나의 워크플로우 템플릿은 여러 개의 사용자 인스턴스를 가질 수 있습니다. (자기 참조 관계)
 -   **Workflow (1) : (N) GeneratedOutput:** 하나의 워크플로우는 여러 개의 결과물을 생성하는 데 사용될 수 있습니다.
 

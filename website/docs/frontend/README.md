@@ -26,7 +26,7 @@
   - **원자적 컴포넌트 (Atomic):** `components/ui/`에 위치하며, `Button`, `Input` 등 가장 기본적이고 재사용 가능한 UI 단위입니다. (주로 `shadcn/ui`로 생성)
 
 - **상태 관리 (State Management):**
-  - **전역 상태:** 사용자의 인증 정보와 같이 여러 페이지에서 공유되어야 하는 상태는 React Context API (`AuthContext`)를 통해 관리합니다.
+  - **전역 상태:** 사용자의 인증 정보와 코인 잔액과 같이 여러 페이지에서 공유되어야 하는 상태는 React Context API (`AuthContext`)를 통해 관리합니다.
   - **지역 상태:** 특정 페이지나 컴포넌트 내부에서만 사용되는 상태는 `useState` 훅을 사용하여 관리합니다.
 
 - **데이터 통신:**

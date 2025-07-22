@@ -27,7 +27,6 @@
         -   `ARCHITECTURE.md`: 프론트엔드-백엔드-인프라가 상호작용하는 방식에 대한 전체 시스템 설계도를 담습니다.
         -   `INFRA_DEPLOYMENT.md`: CI/CD 파이프라인 및 클라우드 환경 설정에 대한 상세 가이드입니다.
         -   `PRINCIPLES.md`: 우리가 따르는 기술적, 협업적 개발 원칙을 정의합니다.
-        -   `DECISION_LOG.md`: 주요 기술적 의사결정의 배경과 이유를 기록합니다. (ADR)
         -   `ROADMAP.md`: 단기 및 장기 개발 계획을 정리합니다.
         -   **`backend/` 디렉토리:** 백엔드(`comfy-surfai-backend`)와 관련된 상세한 기술 문서를 포함합니다.
             -   `README.md`: 백엔드의 기술 스택, 폴더 구조, 실행 방법 등을 설명합니다.

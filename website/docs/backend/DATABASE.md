@@ -76,3 +76,53 @@
 -   **User (1) : (N) GeneratedOutput:** 한 명의 사용자는 여러 개의 결과물을 생성할 수 있습니다.
 -   **Workflow (1) : (N) Workflow:** 하나의 워크플로우 템플릿은 여러 개의 사용자 인스턴스를 가질 수 있습니다. (자기 참조 관계)
 -   **Workflow (1) : (N) GeneratedOutput:** 하나의 워크플로우는 여러 개의 결과물을 생성하는 데 사용될 수 있습니다.
+
+---
+
+## 4. TypeORM 마이그레이션
+
+SurfAI 백엔드는 데이터베이스 스키마 관리를 위해 TypeORM 마이그레이션을 사용합니다. 개발 환경에서 `synchronize: true`를 사용하는 대신, 프로덕션 환경의 안정성과 데이터 무결성을 위해 마이그레이션 방식을 채택했습니다.
+
+### 4.1. 마이그레이션 설정
+
+`comfy-surfai-backend/src/app.module.ts` 파일에서 TypeORM 설정은 다음과 같이 구성됩니다.
+
+```typescript
+TypeOrmModule.forRoot({
+  // ... 기존 설정 ...
+  synchronize: false, // 프로덕션 환경에서는 반드시 false로 설정
+  migrations: [__dirname + '/migrations/**/*.js'], // 마이그레이션 파일 경로
+  cli: {
+    migrationsDir: 'src/migrations', // TypeORM CLI가 마이그레이션 파일을 생성할 경로
+  },
+}),
+```
+
+### 4.2. 마이그레이션 명령어
+
+`comfy-surfai-backend` 디렉토리에서 다음 명령어를 사용하여 마이그레이션을 관리할 수 있습니다.
+
+#### 가. 마이그레이션 파일 생성
+
+엔티티 변경 사항을 기반으로 새로운 마이그레이션 파일을 생성합니다.
+
+```bash
+npm run typeorm migration:generate -- -n <MigrationName>
+# 예시: npm run typeorm migration:generate -- -n UserTableUpdate
+```
+
+#### 나. 마이그레이션 실행
+
+생성된 마이그레이션 파일을 데이터베이스에 적용합니다.
+
+```bash
+npm run typeorm migration:run
+```
+
+#### 다. 마이그레이션 롤백
+
+가장 최근에 적용된 마이그레이션을 롤백합니다.
+
+```bash
+npm run typeorm migration:revert
+```

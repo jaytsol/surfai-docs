@@ -127,7 +127,7 @@ graph TD
 -   **Domain:** `docs.surfai.org`
 -   **Technologies:** `Docusaurus`, `React`, `Markdown(MDX)`
 -   **Key Roles:**
-    -   Serves as the **Single Source of Truth** for all project technical documents, architecture, decision logs, etc., provided as a static website.
+    -   Serves as the **Single Source of Truth** for all project technical documents, architecture, etc., provided as a static website.
     -   All documents are written in `Markdown` files and version-controlled with `Git` alongside the code on `GitHub`.
     -   A CI/CD pipeline is established through `Git` integration with `Vercel`, automatically building and deploying the site whenever changes are pushed to the `main` branch.
     -   Provides documents in multiple languages (Korean, English, etc.) through its i18n feature.

@@ -4,7 +4,7 @@ const sidebars: SidebarsConfig = {
   docsSidebar: [
     {
       type: 'category',
-      label: 'project-overview',
+      label: 'projectOverview',
       link: {
         type: 'generated-index',
         title: '프로젝트 개요 문서'

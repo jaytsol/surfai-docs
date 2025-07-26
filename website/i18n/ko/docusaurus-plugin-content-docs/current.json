@@ -3,7 +3,7 @@
     "message": "Next",
     "description": "The label for version current"
   },
-  "sidebar.docsSidebar.category.project-overview": {
+  "sidebar.docsSidebar.category.projectOverview": {
     "message": "프로젝트 개요",
     "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
   },

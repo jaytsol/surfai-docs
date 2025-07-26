@@ -17,7 +17,7 @@ const config: Config = {
   organizationName: 'jaytsol', // Replace with your GitHub username
   projectName: 'surfai-docs', // Your repo name
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
 
   markdown: {

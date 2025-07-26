@@ -7,6 +7,10 @@
     "message": "프로젝트 개요",
     "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
   },
+  "sidebar.docsSidebar.category.backend": {
+    "message": "백엔드",
+    "description": "The label for category 백엔드 in sidebar docsSidebar"
+  },
   "sidebar.docsSidebar.category.frontend": {
     "message": "프론트엔드",
     "description": "The label for category 프론트엔드 in sidebar docsSidebar"

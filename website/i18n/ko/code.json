@@ -343,13 +343,5 @@
   "default.overview.link.text": {
     "message": "개요",
     "description": "The text for the overview link"
-  },
-  "default.architecture.link.text": {
-    "message": "아키텍처",
-    "description": "The text for the architecture link"
-  },
-  "default.tools.link.text": {
-    "message": "도구",
-    "description": "The text for the tools link"
   }
 }

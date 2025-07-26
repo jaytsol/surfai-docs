@@ -10,21 +10,11 @@ const sidebars: SidebarsConfig = {
         title: '프로젝트 개요 문서'
       },
       items: [
-        'OVERVIEW',
-        'PRINCIPLES',
-        'ROADMAP',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'architecture',
-      link: {
-        type: 'generated-index',
-        title: '아키텍처 문서'
-      },
-      items: [
-        'ARCHITECTURE',
-        'INFRA_DEPLOYMENT',
+        'project-overview/OVERVIEW',
+        'project-overview/PRINCIPLES',
+        'project-overview/ROADMAP',
+        'project-overview/architecture/ARCHITECTURE',
+        'project-overview/infra-deployment/INFRA_DEPLOYMENT',
       ],
     },
     {

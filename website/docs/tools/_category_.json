@@ -3,6 +3,7 @@
   "position": 1,
   "link": {
     "type": "generated-index",
-    "title": "SurfAI 도구 목록"
+    "title": "SurfAI 도구 목록",
+    "slug": "/tools"
   }
 }

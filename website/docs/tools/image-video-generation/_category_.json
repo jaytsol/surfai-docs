@@ -3,6 +3,7 @@
   "position": 1,
   "link": {
     "type": "generated-index",
-    "title": "이미지/비디오 생성 문서"
+    "title": "이미지/비디오 생성 문서",
+    "slug": "/tools/image-video-generation"
   }
 }

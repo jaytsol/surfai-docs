@@ -3,6 +3,7 @@
   "position": 2,
   "link": {
     "type": "generated-index",
-    "title": "Test Tool Documentation"
+    "title": "Test Tool Documentation",
+    "slug": "/tools/test-tool"
   }
 }

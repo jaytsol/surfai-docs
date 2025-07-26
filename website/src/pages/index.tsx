@@ -21,18 +21,8 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/category/project-overview">
+            to="/project-overview/overview">
             <Translate id="default.overview.link.text">OVERVIEW</Translate>
-          </Link>
-          <Link
-            className="button button--secondary button--lg"
-            to="/category/architecture">
-            <Translate id="default.architecture.link.text">ARCHITECTURE</Translate>
-          </Link>
-          <Link
-            className="button button--secondary button--lg"
-            to="/category/tools">
-            <Translate id="default.tools.link.text">TOOLS</Translate>
           </Link>
         </div>
       </div>

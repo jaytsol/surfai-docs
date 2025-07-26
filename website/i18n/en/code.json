@@ -343,13 +343,5 @@
   "default.overview.link.text": {
     "message": "OVERVIEW",
     "description": "The text for the overview link"
-  },
-  "default.architecture.link.text": {
-    "message": "ARCHITECTURE",
-    "description": "The text for the architecture link"
-  },
-  "default.tools.link.text": {
-    "message": "TOOLS",
-    "description": "The text for the tools link"
   }
 }

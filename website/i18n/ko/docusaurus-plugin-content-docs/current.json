@@ -3,7 +3,7 @@
     "message": "Next",
     "description": "The label for version current"
   },
-  "sidebar.docsSidebar.category.projectOverview": {
+  "sidebar.docsSidebar.category.project-overview": {
     "message": "프로젝트 개요",
     "description": "The label for category 프로젝트 개요 in sidebar docsSidebar"
   },
@@ -18,5 +18,17 @@
   "sidebar.docsSidebar.category.frontend": {
     "message": "프론트엔드",
     "description": "The label for category 프론트엔드 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.tools": {
+    "message": "도구",
+    "description": "The label for category 도구 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.image-video-generation": {
+    "message": "이미지/비디오 생성",
+    "description": "The label for category 이미지/비디오 생성 in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.test-tool": {
+    "message": "테스트 도구",
+    "description": "The label for category 테스트 도구 in sidebar docsSidebar"
   }
 }

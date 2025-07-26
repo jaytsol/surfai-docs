@@ -1,5 +1,5 @@
 {
-  "label": "이미지/비디오 생성",
+  "label": "image-video-generation",
   "position": 1,
   "link": {
     "type": "generated-index",

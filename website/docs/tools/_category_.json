@@ -1,8 +1,8 @@
 {
-  "label": "backend",
+  "label": "tools",
   "position": 1,
   "link": {
     "type": "generated-index",
-    "title": "Backend Documentation"
+    "title": "SurfAI 도구 목록"
   }
 }

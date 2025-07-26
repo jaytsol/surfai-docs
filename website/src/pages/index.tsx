@@ -31,12 +31,12 @@ function HomepageHeader() {
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/backend/API_SPEC">
+            to="/docs/도구/이미지-비디오-생성/백엔드/API_SPEC">
             <Translate id="default.backend.link.text">BACKEND</Translate>
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/frontend/COMPONENTS">
+            to="/docs/도구/이미지-비디오-생성/프론트엔드/COMPONENTS">
             <Translate id="default.frontend.link.text">FRONTEND</Translate>
           </Link>
         </div>

@@ -17,7 +17,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '아키텍처',
+      label: 'architecture',
       link: {
         type: 'generated-index',
         title: '아키텍처 문서'

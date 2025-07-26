@@ -4,12 +4,20 @@
     "description": "The label for version current"
   },
   "sidebar.docsSidebar.category.projectOverview": {
-    "message": "Overview",
+    "message": "Project Overview",
     "description": "The label for category projectOverview in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.architecture": {
     "message": "Architecture",
     "description": "The label for category architecture in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.tools": {
+    "message": "Tools",
+    "description": "The label for category tools in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.image-video-generation": {
+    "message": "Image/Video Generation",
+    "description": "The label for category image-video-generation in sidebar docsSidebar"
   },
   "sidebar.docsSidebar.category.backend": {
     "message": "Backend",
@@ -17,6 +25,14 @@
   },
   "sidebar.docsSidebar.category.frontend": {
     "message": "Frontend",
-    "description": "The label for category 프론트엔드 in sidebar docsSidebar"
+    "description": "The label for category frontend in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.test-tool": {
+    "message": "Test Tool",
+    "description": "The label for category test-tool in sidebar docsSidebar"
+  },
+  "sidebar.docsSidebar.category.infra-deployment": {
+    "message": "Infrastructure & Deployment",
+    "description": "The label for category infra-deployment in sidebar docsSidebar"
   }
 }

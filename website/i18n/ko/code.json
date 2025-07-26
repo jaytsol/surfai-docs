@@ -348,12 +348,8 @@
     "message": "아키텍처",
     "description": "The text for the architecture link"
   },
-  "default.backend.link.text": {
-    "message": "백엔드",
-    "description": "The text for the backend link"
-  },
-  "default.frontend.link.text": {
-    "message": "프론트엔드",
-    "description": "The text for the frontend link"
+  "default.tools.link.text": {
+    "message": "도구",
+    "description": "The text for the tools link"
   }
 }

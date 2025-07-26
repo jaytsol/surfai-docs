@@ -348,12 +348,8 @@
     "message": "ARCHITECTURE",
     "description": "The text for the architecture link"
   },
-  "default.backend.link.text": {
-    "message": "BACKEND",
-    "description": "The text for the backend link"
-  },
-  "default.frontend.link.text": {
-    "message": "FRONTEND",
-    "description": "The text for the frontend link"
+  "default.tools.link.text": {
+    "message": "TOOLS",
+    "description": "The text for the tools link"
   }
 }

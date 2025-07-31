@@ -39,13 +39,13 @@ graph TD
         H[Google OAuth 인증 서비스]
     end
     
-    subgraph "연산 서버 (On-premise / VM)"
+    subgraph "연산 서버 (On-premise)"
         G_Proxy[Nginx 리버스 프록시]
         G[ComfyUI GPU]
         G_Proxy -- 프록시 패스 --> G
     end
 
-    subgraph "문서 자동화 시스템"
+    subgraph "문서 시스템"
         I[Docusaurus 문서 웹사이트]
         J[Github Repository 'surfai-docs']
         I -- 배포 --> B

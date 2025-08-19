@@ -193,3 +193,41 @@
     ```
 -   **Successful Response (`200 OK`):** `User` (업데이트된 사용자 정보)
 -   **Error Responses:** `400 Bad Request` (유효성 검사 실패), `402 Payment Required` (코인 잔액 부족), `404 Not Found` (사용자 없음)
+
+---
+
+## 6. 소셜 연동 및 게시 API
+
+> **Controller:** `ConnectController`, `GeneratedOutputController`
+> **인증:** 모든 API는 **Access Token**이 필요합니다.
+
+### 6.1 SNS 계정 연동 시작
+-   **Endpoint:** `GET /connect/:platform`
+-   **설명:** 사용자를 지정된 플랫폼(예: `youtube`, `x`)의 OAuth 2.0 인증 페이지로 리디렉션시킵니다.
+-   **Successful Response (`302 Found`):** 해당 플랫폼의 인증 페이지로 리디렉션.
+
+### 6.2 SNS 계정 연동 콜백
+-   **Endpoint:** `GET /connect/:platform/callback`
+-   **설명:** 플랫폼 인증 성공 후 호출되는 콜백 URL. 백엔드에서 토큰을 교환하고 연동 정보를 DB에 저장합니다.
+-   **Successful Response (`200 OK`):** 연동 성공/실패를 알리는 정적 페이지로 리디렉션.
+
+### 6.3 연동된 계정 목록 조회
+-   **Endpoint:** `GET /connections`
+-   **설명:** 현재 로그인된 사용자가 연동한 모든 SNS 플랫폼의 목록을 조회합니다.
+-   **Successful Response (`200 OK`):** `string[]` (예: `["YOUTUBE", "X"]`)
+
+### 6.4 SNS 계정 연동 해제
+-   **Endpoint:** `POST /disconnect/:platform`
+-   **설명:** 지정된 플랫폼과의 연동을 해제하고 관련 정보를 DB에서 삭제합니다.
+-   **Successful Response (`204 No Content`):** 응답 본문 없음.
+
+### 6.5 결과물 SNS에 게시 요청
+-   **Endpoint:** `POST /my-outputs/:id/publish`
+-   **설명:** 특정 생성 결과물을 지정된 SNS 플랫폼들에 게시하도록 요청합니다. 실제 업로드는 백그라운드에서 처리됩니다.
+-   **Request Body:**
+    ```json
+    {
+      "platforms": ["YOUTUBE", "X"] 
+    }
+    ```
+-   **Successful Response (`202 Accepted`):** `{ "message": "SNS 게시 작업이 시작되었습니다." }`

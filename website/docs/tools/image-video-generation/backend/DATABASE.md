@@ -87,10 +87,25 @@
 | `duration`          | `float`          | Nullable                        | 결과물이 비디오일 경우, 초 단위 재생 시간.                   |
 | `createdAt`         | `timestamptz`    | Not Null                        | 레코드 생성 시각                                             |
 
+### 마. `social_connections` 테이블
+
+사용자가 연동한 여러 SNS 계정 정보를 저장하는 테이블입니다.
+
+| 컬럼명 | 타입 | 제약 조건 | 설명 |
+| :--- | :--- | :--- | :--- |
+| `id` | `integer` | **PK**, Auto-increment | 고유 식별자 |
+| `userId` | `integer` | Not Null, **FK** (`users.id`) | SurfAI 사용자 ID |
+| `platform` | `enum` | Not Null | SNS 플랫폼 (`YOUTUBE`, `INSTAGRAM`, `X` 등) |
+| `platformUsername` | `varchar` | Not Null | 해당 SNS에서의 사용자 이름 |
+| `accessToken` | `varchar` | Not Null, Encrypted | API 요청에 사용할 Access Token |
+| `refreshToken` | `varchar` | Nullable, Encrypted | Access Token 재발급에 사용할 Refresh Token |
+| `connectedAt` | `timestamptz`| Not Null | 연동된 시각 |
+
 ---
 
 ## 3. 테이블 관계 (ERD 요약)
 
+-   **User (1) : (N) SocialConnection:** 한 명의 사용자는 여러 개의 SNS 계정을 연동할 수 있습니다.
 -   **User (1) : (N) Workflow:** 한 명의 사용자는 여러 개의 워크플로우 인스턴스를 소유할 수 있습니다.
 -   **User (1) : (N) GeneratedOutput:** 한 명의 사용자는 여러 개의 결과물을 생성할 수 있습니다.
 -   **User (1) : (N) CoinTransaction:** 한 명의 사용자는 여러 개의 코인 거래 내역을 가질 수 있습니다.

@@ -37,12 +37,17 @@ graph TD
         E[Managed PostgreSQL Supabase]
         F[Cloudflare R2 File Storage]
         H[Google OAuth Authentication Service]
+        K[LLM Provider e.g. OpenAI]
     end
     
     subgraph "Computation Server (On-premise / VM)"
         G_Proxy[Nginx Reverse Proxy]
         G[ComfyUI GPU]
         G_Proxy -- Proxy Pass --> G
+    end
+
+    subgraph "LLM Server (Python)"
+        L[comfy-langchain FastAPI]
     end
 
     subgraph "Documentation Automation System"
@@ -68,7 +73,9 @@ graph TD
     %% Backend Logic
     D -- "User Workflow Generation Record etc. CRUD" --> E;
     D -- "Manage Uploaded Generated Files" --> F;
-    D -- Generation Task Request (HTTPS) --> G_Proxy;
+    D -- "Image/Video Generation Task Request" --> G_Proxy;
+    D -- "LLM Feature Request (Internal API)" --> L;
+    L -- "LLM Service API Request" --> K;
     
     %% Real-time Communication (WebSocket)
     subgraph "Real-time Communication (WebSocket)"
@@ -98,10 +105,11 @@ graph TD
 -   **Domain:** `api.surfai.org`
 -   **Technology:** `NestJS`, `TypeORM`, `PostgreSQL`, `Passport.js`
 -   **Core Role:**
-    -   A **stateless** API server that handles all business logic.
+    -   Acts as a **stateless** API server that handles all business logic and serves as an **API Gateway** to other internal services.
     -   **Authentication:** Processes `Google Sign-In` and general login requests, generates `JWT` (Access/Refresh Token) for authenticated users, and sets them as `HttpOnly` cookies on the client. Controls access to each API endpoint via `JwtAuthGuard` and `RolesGuard`.
     -   **Coin Management:** Manages user coin balances and records coin transactions. Provides manual coin adjustment functionality via admin APIs.
     -   **Generation Pipeline:** Forwards generation requests from the frontend to the `ComfyUI` computation server and broadcasts progress to the frontend via `WebSocket`.
+    -   **LLM Feature Integration:** Forwards LLM-related requests from the frontend to the internal `comfy-langchain` server and returns the results to the frontend.
     -   **Result Processing:** Once `ComfyUI` completes generation, it downloads the result file (image/video), uploads it to `Cloudflare R2`, and permanently records related metadata (`usedParameters`, etc.) in the `PostgreSQL` database.
 
 ### C. Computation Server
@@ -113,14 +121,23 @@ graph TD
     -   Sends `progress`, `executed`, and other events occurring during generation to the backend via `WebSocket`.
     -   Securely exposed to the external internet using an **Nginx Reverse Proxy**, performing primary access control via Basic Authentication.
 
-### D. Cloud Infrastructure
+### D. LLM Server - `comfy-langchain`
+
+-   **Platform:** `Google Cloud Run` (Docker Container)
+-   **Technology:** `FastAPI`, `Python`, `LangChain`
+-   **Core Role:**
+    -   A **Python-based API server** that specializes in handling LLM (Large Language Model) related features using the `LangChain` library.
+    -   Receives internal API requests from the NestJS backend, performs tasks such as text generation, summarization, or transformation, and returns the results.
+    -   Maintains security by only allowing requests from the NestJS backend via an internal API key (`X-Internal-API-Key`).
+
+### E. Cloud Infrastructure
 
 -   **Google Cloud Run:** Runs frontend and backend `Docker` containers, providing a serverless environment that automatically scales up/down with traffic.
 -   **PostgreSQL (by Supabase):** A database that permanently stores all data including users, workflows, generation records, and **coin transaction history**.
 -   **Cloudflare R2:** Object storage for generated image/video files. (Operated with separate private and public buckets)
 -   **Cloudflare (Overall):** Manages `DNS` for the `surfai.org` domain and provides security and performance optimization features such as `WAF` and `CDN`.
 
-### E. Documentation System - `surfai-docs`
+### F. Documentation System - `surfai-docs`
 
 -   **Platform:** `Vercel`
 -   **Domain:** `docs.surfai.org`

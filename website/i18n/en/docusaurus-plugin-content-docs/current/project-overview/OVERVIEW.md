@@ -45,6 +45,7 @@ The SurfAI service is built around two core concepts.
 
 -   **Easy Login:** Supports easy login via email/password registration or `Google` accounts.
 -   **Template-Based Generation:** Users select a desired style from a list of public workflow templates and request image/video generation through a simple form input.
+-   **(Future) LLM-based Features:** Plans to provide various AI functions such as text generation, summarization, and transformation using a LangChain-based LLM (Large Language Model).
 -   **Coin Consumption and Balance Management:** Coins are deducted according to the cost defined in the workflow template when generating images/videos. Coin balance is optimistically updated in real-time on the frontend, and the backend blocks generation if coins are insufficient. (Coins are rolled back on failure)
 -   **Real-time Progress Monitoring:** Users can monitor the progress of generation tasks, queue status, and real-time preview results via `WebSocket`.
 -   **Personal Gallery (History):** Users can view and manage all their generated results on the "History" page.
@@ -64,6 +65,7 @@ The SurfAI service is built around two core concepts.
 
 -   **Frontend:** Next.js, React, TypeScript, Tailwind CSS
 -   **Backend:** NestJS, TypeScript, TypeORM, PostgreSQL
+-   **LLM Server:** FastAPI, Python, LangChain
 -   **Infrastructure:** Docker, Google Cloud Run, Cloudflare R2, Nginx
 -   **Documentation:** Docusaurus, Gemini CLI, Mermaid
 

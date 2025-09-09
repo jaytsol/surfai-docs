@@ -56,6 +56,9 @@ This document defines the short-term and long-term development plans for the Sur
 
 **Goal:** Maximize user convenience and migrate the computation server to the cloud to build a fully cloud-native service.
 
+-   **[Planned] Build Python server for LLM feature integration:**
+    -   Build a separate Python server using `FastAPI` and `LangChain` to provide LLM functionalities.
+    -   Implement an architecture where the existing NestJS backend acts as an API gateway, communicating internally with the FastAPI server while maintaining centralized authentication.
 -   **Computation Server Cloud Migration:**
     -   **[Planned]** Migrate local PC's `ComfyUI` server to a GPU virtual machine on `Google Compute Engine (GCE)`.
     -   **[Planned]** Cost Optimization: Establish a strategy to use `On-demand` instances and `Spot VM` as appropriate.

@@ -45,6 +45,7 @@ SurfAI 서비스는 다음 두 가지 핵심 개념을 중심으로 구축됩니
 
 -   **간편한 로그인:** 이메일/비밀번호 가입 또는 `Google` 계정을 통한 간편 로그인을 지원합니다.
 -   **템플릿 기반 생성:** 공개된 워크플로우 템플릿 목록에서 원하는 스타일을 선택하고, 간단한 폼 입력을 통해 이미지/비디오 생성을 요청합니다.
+-   **(향후) LLM 기반 기능:** LangChain 기반의 LLM(거대 언어 모델)을 활용한 텍스트 생성, 요약, 변환 등 다양한 AI 기능을 제공할 예정입니다.
 -   **코인 소모 및 잔액 관리:** 이미지/비디오 생성 시 워크플로우 템플릿에 정의된 비용만큼 코인이 차감됩니다. 프론트엔드에서 코인 잔액이 실시간으로 낙관적 업데이트되며, 백엔드에서 코인 부족 시 생성을 차단합니다. (실패 시 코인 롤백)
 -   **실시간 진행 상황 확인:** `WebSocket`을 통해 생성 작업의 진행률, 대기열 상태, 그리고 생성 중인 프리뷰 결과물을 실시간으로 확인할 수 있습니다.
 -   **개인 갤러리 (히스토리):** 자신이 생성한 모든 결과물을 "히스토리" 페이지에서 확인하고 관리할 수 있습니다.
@@ -64,6 +65,7 @@ SurfAI 서비스는 다음 두 가지 핵심 개념을 중심으로 구축됩니
 
 -   **Frontend:** Next.js, React, TypeScript, Tailwind CSS
 -   **Backend:** NestJS, TypeScript, TypeORM, PostgreSQL
+-   **LLM Server:** FastAPI, Python, LangChain
 -   **Infrastructure:** Docker, Google Cloud Run, Cloudflare R2, Nginx
 -   **Documentation:** Docusaurus, Gemini CLI, Mermaid
 

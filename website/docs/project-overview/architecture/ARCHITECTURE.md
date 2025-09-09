@@ -37,12 +37,17 @@ graph TD
         E[관리형 PostgreSQL Supabase]
         F[Cloudflare R2 파일 스토리지]
         H[Google OAuth 인증 서비스]
+        K[LLM Provider e.g. OpenAI]
     end
     
     subgraph "연산 서버 (On-premise)"
         G_Proxy[Nginx 리버스 프록시]
         G[ComfyUI GPU]
         G_Proxy -- 프록시 패스 --> G
+    end
+
+    subgraph "LLM 서버 (Python)"
+        L[comfy-langchain FastAPI]
     end
 
     subgraph "문서 시스템"
@@ -68,7 +73,9 @@ graph TD
     %% 백엔드 로직
     D -- "사용자 워크플로우 생성 기록 등 CRUD" --> E;
     D -- "생성된 파일 업로드 관리" --> F;
-    D -- 생성 작업 요청 (HTTPS) --> G_Proxy;
+    D -- "이미지/비디오 생성 작업 요청" --> G_Proxy;
+    D -- "LLM 기능 요청 (내부 API)" --> L;
+    L -- "LLM 서비스 API 요청" --> K;
     
     %% 실시간 통신 (WebSocket)
     subgraph "실시간 통신 (WebSocket)"
@@ -98,10 +105,11 @@ graph TD
 -   **도메인:** `api.surfai.org`
 -   **기술:** `NestJS`, `TypeORM`, `PostgreSQL`, `Passport.js`
 -   **핵심 역할:**
-    -   모든 비즈니스 로직을 처리하는 **스테이트리스(Stateless)** API 서버입니다.
+    -   모든 비즈니스 로직을 처리하는 **스테이트리스(Stateless)** API 서버이자, 다른 내부 서비스로의 **API 게이트웨이** 역할을 수행합니다.
     -   **인증:** `Google Sign-In` 및 일반 로그인 요청을 처리하고, 검증된 사용자에 대해 `JWT`(Access/Refresh Token)를 생성하여 `HttpOnly` 쿠키로 클라이언트에 설정합니다. `JwtAuthGuard`와 `RolesGuard`를 통해 각 API 엔드포인트의 접근을 제어합니다.
     -   **코인 관리:** 사용자 코인 잔액을 관리하고, 코인 거래 내역을 기록합니다. 관리자용 API를 통해 코인 수동 조정 기능을 제공합니다.
     -   **생성 파이프라인:** 프론트엔드로부터 받은 생성 요청을 `ComfyUI` 연산 서버에 전달하고, `WebSocket`을 통해 진행 상황을 프론트엔드에 브로드캐스트합니다.
+    -   **LLM 기능 연동:** 프론트엔드로부터 받은 LLM 관련 요청을 내부 `comfy-langchain` 서버에 전달하고, 그 결과를 받아 다시 프론트엔드에 반환합니다.
     -   **결과물 처리:** `ComfyUI`가 생성을 완료하면, 결과 파일(이미지/비디오)을 다운로드하여 `Cloudflare R2`에 업로드하고, 관련 메타데이터(`usedParameters` 등)를 `PostgreSQL` 데이터베이스에 영구적으로 기록합니다.
 
 ### 다. 연산 서버 (Compute Server)
@@ -113,14 +121,23 @@ graph TD
     -   생성 과정 중 발생하는 `progress`, `executed` 등의 이벤트를 `WebSocket`을 통해 백엔드로 전송합니다.
     -   **Nginx 리버스 프록시**를 사용하여 외부 인터넷에 안전하게 노출되며, 기본 인증(Basic Authentication)을 통해 1차적인 접근 제어를 수행합니다.
 
-### 라. 클라우드 인프라 (Cloud Infrastructure)
+### 라. LLM 서버 (LLM Server) - `comfy-langchain`
+
+-   **플랫폼:** `Google Cloud Run` (Docker 컨테이너)
+-   **기술:** `FastAPI`, `Python`, `LangChain`
+-   **핵심 역할:**
+    -   `LangChain` 라이브러리를 사용하여 LLM(거대 언어 모델) 관련 기능을 전문적으로 처리하는 **Python 기반 API 서버**입니다.
+    -   NestJS 백엔드로부터 내부 API 요청을 받아, 텍스트 생성, 요약, 변환 등의 작업을 수행하고 결과를 반환합니다.
+    -   내부 API 키(`X-Internal-API-Key`)를 통해 NestJS 백엔드로부터의 요청만 허용하여 보안을 유지합니다.
+
+### 마. 클라우드 인프라 (Cloud Infrastructure)
 
 -   **Google Cloud Run:** 프론트엔드와 백엔드 `Docker` 컨테이너를 실행하고, 트래픽에 따라 자동으로 확장/축소되는 서버리스 환경을 제공합니다.
 -   **PostgreSQL (by Supabase):** 사용자, 워크플로우, 생성 기록, **코인 거래 내역** 등 모든 데이터를 영구적으로 저장하는 데이터베이스입니다.
 -   **Cloudflare R2:** 생성된 이미지/비디오 파일을 저장하는 객체 스토리지입니다. (비공개 버킷과 공개 버킷으로 분리 운영)
 -   **Cloudflare (전체):** `surfai.org` 도메인의 `DNS`를 관리하고, `WAF`, `CDN` 등의 보안 및 성능 최적화 기능을 제공합니다.
 
-### 마. 문서 시스템 (Documentation System) - `surfai-docs`
+### 바. 문서 시스템 (Documentation System) - `surfai-docs`
 
 -   **플랫폼:** `Vercel`
 -   **도메인:** `docs.surfai.org`

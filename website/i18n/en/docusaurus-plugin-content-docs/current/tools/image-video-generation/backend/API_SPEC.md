@@ -193,3 +193,29 @@
     ```
 -   **Successful Response (`200 OK`):** `User` (updated user information)
 -   **Error Responses:** `400 Bad Request` (validation failed), `402 Payment Required` (insufficient coin balance), `404 Not Found` (user not found)
+
+---
+
+## 6. LangChain (LLM) API
+
+> **Controller:** `LangchainController`
+> **Base Path:** `/langchain`
+> **Authentication:** All APIs require **Access Token**.
+
+### 6.1 AI Chat
+-   **Endpoint:** `POST /chat`
+-   **Description:** Forwards the prompt received from the user to the FastAPI server to get a response from the LLM.
+-   **Authentication:** Access Token required (JwtAuthGuard)
+-   **Request Body:** `CreateChatDto`
+    ```json
+    {
+      "prompt": "Write a sentence about the future of AI poetry."
+    }
+    ```
+-   **Successful Response (`200 OK`):** 
+    ```json
+    {
+      "response": "AI poetry will evolve into a new art form, combining human creativity with the infinite possibilities of machines."
+    }
+    ```
+-   **Error Responses:** `401 Unauthorized`

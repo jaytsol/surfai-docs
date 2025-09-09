@@ -48,6 +48,7 @@ The backend follows a **module-based Layered Architecture**.
 │   ├── 📁 guards/
 │   └── 📁 strategies/
 ├── 📁 comfyui/            # Module responsible for communication with ComfyUI compute server
+├── 📁 langchain/           # Module responsible for communication with LangChain server
 ├── 📁 common/             # Elements commonly used across multiple modules
 │   ├── 📁 decorators/
 │   ├── 📁 dto/            # Data Transfer Objects

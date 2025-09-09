@@ -130,3 +130,14 @@ Located in the `src/components/` directory, these are "dumb" components responsi
     -   Displays media (image/video) largely on the left using `item.viewUrl`.
     -   Displays detailed metadata such as `item.usedParameters`, `item.createdAt` in a scrollable area on the right.
     -   Calls the `onClose` handler when the outer background or 'X' button is clicked to close.
+
+### E. `ChatModal.tsx`
+
+-   **Location:** `src/components/common/ChatModal.tsx`
+-   **Role:** A reusable modal component that provides AI chat functionality. Used on the `/surf` page.
+-   **Key Features:**
+    -   Features a popup UI based on the `Dialog` component.
+    -   Includes an `Input` for user prompts and a 'Send' `Button`.
+    -   Manages internal states like `isLoading`, `error`, and `response` to display the API request status.
+    -   Calls the backend's `/langchain/chat` endpoint via `apiClient` when the 'Send' button is clicked.
+    -   Displays the AI's response in a scrollable area.

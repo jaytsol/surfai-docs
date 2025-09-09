@@ -231,3 +231,29 @@
     }
     ```
 -   **Successful Response (`202 Accepted`):** `{ "message": "SNS 게시 작업이 시작되었습니다." }`
+
+---
+
+## 7. LangChain (LLM) API
+
+> **Controller:** `LangchainController`
+> **Base Path:** `/langchain`
+> **인증:** 모든 API는 **Access Token**이 필요합니다.
+
+### 7.1 AI 채팅
+-   **Endpoint:** `POST /chat`
+-   **설명:** 사용자로부터 받은 프롬프트를 FastAPI 서버로 전달하여 LLM의 답변을 받아옵니다.
+-   **인증:** Access Token 필요 (JwtAuthGuard)
+-   **Request Body:** `CreateChatDto`
+    ```json
+    {
+      "prompt": "AI 시의 미래에 대해 한 문장으로 써줘"
+    }
+    ```
+-   **Successful Response (`200 OK`):** 
+    ```json
+    {
+      "response": "AI 시는 인간의 창의성과 기계의 무한한 가능성이 결합된 새로운 예술 형태로 발전할 것입니다."
+    }
+    ```
+-   **Error Responses:** `401 Unauthorized`

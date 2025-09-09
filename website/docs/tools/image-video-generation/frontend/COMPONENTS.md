@@ -130,3 +130,14 @@
     -   왼쪽에는 `item.viewUrl`을 사용하여 미디어(이미지/비디오)를 크게 표시합니다.
     -   오른쪽에는 `item.usedParameters`, `item.createdAt` 등 상세 메타데이터를 스크롤 가능한 영역에 표시합니다.
     -   바깥쪽 배경이나 'X' 버튼을 클릭하면 `onClose` 핸들러를 호출하여 닫힙니다.
+
+### 마. `ChatModal.tsx`
+
+-   **위치:** `src/components/common/ChatModal.tsx`
+-   **역할:** AI 채팅 기능을 제공하는 재사용 가능한 모달 컴포넌트입니다. `/surf` 페이지에서 사용됩니다.
+-   **주요 기능:**
+    -   `Dialog` 컴포넌트를 기반으로 한 팝업 UI를 가집니다.
+    -   사용자 입력을 위한 `Input`과 '전송' `Button`을 포함합니다.
+    -   `isLoading`, `error`, `response` 등의 내부 상태를 관리하여 API 요청 상태를 표시합니다.
+    -   '전송' 버튼 클릭 시 `apiClient`를 통해 백엔드의 `/langchain/chat` 엔드포인트를 호출합니다.
+    -   AI의 답변을 스크롤 가능한 영역에 표시합니다.

@@ -1,6 +1,6 @@
 # Database Schema
 🗄️ Database Schema: SurfAI
-Last Updated: June 29, 2025
+Last Updated: September 13, 2025
 
 This document details the PostgreSQL database schema, key tables, and relationships between tables in the SurfAI project. All tables and columns are defined based on TypeORM entities.
 
@@ -87,10 +87,25 @@ This table stores metadata for all generated outputs (images/videos) by users.
 | `duration`         | `float`         | Nullable                        | Playback time in seconds if the output is a video.                       |
 | `createdAt`        | `timestamptz`   | Not Null                        | Record creation timestamp                                                |
 
+### E. `social_connections` Table
+
+This table stores information about the various social media accounts connected by the user.
+
+| Column Name      | Type        | Constraints                     | Description                                      |
+| :--------------- | :---------- | :------------------------------ | :----------------------------------------------- |
+| `id`             | `integer`   | **PK**, Auto-increment          | Unique identifier                                |
+| `userId`         | `integer`   | Not Null, **FK** (`users.id`)   | SurfAI user ID                                   |
+| `platform`       | `enum`      | Not Null                        | SNS platform (`YOUTUBE`, `INSTAGRAM`, `X`, etc.) |
+| `platformUsername` | `varchar`   | Not Null                        | User's name on that SNS                          |
+| `accessToken`    | `varchar`   | Not Null, Encrypted             | Access Token to be used for API requests         |
+| `refreshToken`   | `varchar`   | Nullable, Encrypted             | Refresh Token to be used for reissuing Access Token |
+| `connectedAt`    | `timestamptz`| Not Null                        | Timestamp of connection                          |
+
 ---
 
 ## 3. Table Relationships (ERD Summary)
 
+-   **User (1) : (N) SocialConnection:** One user can connect multiple social media accounts.
 -   **User (1) : (N) Workflow:** One user can own multiple workflow instances.
 -   **User (1) : (N) GeneratedOutput:** One user can generate multiple outputs.
 -   **User (1) : (N) CoinTransaction:** One user can have multiple coin transaction records.
@@ -128,7 +143,7 @@ Generates a new migration file based on entity changes.
 
 ```bash
 npm run typeorm migration:generate -- -n <MigrationName>
-# 예시: npm run typeorm migration:generate -- -n UserTableUpdate
+# Example: npm run typeorm migration:generate -- -n UserTableUpdate
 ```
 
 #### B. Run Migrations

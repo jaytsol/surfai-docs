@@ -1,7 +1,7 @@
 # 아키텍처
 
 🏛️ 프로젝트 아키텍처: SurfAI
-최종 업데이트: 2025년 6월 29일
+최종 업데이트: 2025년 9월 13일
 
 이 문서는 SurfAI 서비스의 전체적인 시스템 아키텍처, 각 구성 요소의 역할, 그리고 주요 데이터 흐름을 상세히 설명합니다.
 
@@ -34,7 +34,8 @@ graph TD
     end
 
     subgraph "외부 서비스 (3rd Party)"
-        E[관리형 PostgreSQL Supabase]
+        E[관리형 PostgreSQL Supabase - Metadata]
+        E_pgvector[PostgreSQL with pgvector - Embeddings]
         F[Cloudflare R2 파일 스토리지]
         H[Google OAuth 인증 서비스]
         K[LLM Provider e.g. OpenAI]
@@ -54,28 +55,39 @@ graph TD
         I[Docusaurus 문서 웹사이트]
         J[Github Repository 'surfai-docs']
         I -- 배포 --> B
-        사용자 -- 문서 수정 요청 --> J
+        A -- 문서 수정 요청 --> J
         J -- 자동 배포 (Vercel) --> I
     end
 
-    %% --- 데이터 흐름 정의 ---
-
-    A -- HTTPS --> B;
-    B -- surfai.org --> C;
-    B -- api.surfai.org --> D;
-    
-    C -- API 요청 (HTTPS) --> D;
+    %% --- 기본 데이터 흐름 정의 ---
+    A -- HTTPS --> B
+    B -- surfai.org --> C
+    B -- api.surfai.org --> D
+    C -- API 요청 (HTTPS) --> D
     
     %% 인증 흐름
-    A -- Google 로그인 요청 --> D;
-    D -- 사용자 프로필 검증 --> H;
+    A -- Google 로그인 요청 --> D
+    D -- 사용자 프로필 검증 --> H
 
-    %% 백엔드 로직
-    D -- "사용자 워크플로우 생성 기록 등 CRUD" --> E;
-    D -- "생성된 파일 업로드 관리" --> F;
-    D -- "이미지/비디오 생성 작업 요청" --> G_Proxy;
-    D -- "LLM 기능 요청 (내부 API)" --> L;
-    L -- "LLM 서비스 API 요청" --> K;
+    %% 이미지/비디오 생성 백엔드 로직
+    D -- "사용자, 워크플로우 등 CRUD" --> E
+    D -- "생성된 파일 업로드/관리" --> F
+    D -- "이미지/비디오 생성 작업 요청" --> G_Proxy
+    
+    %% RAG 기반 PDF 채팅 백엔드 로직
+    C -- "1. PDF 업로드" --> D
+    D -- "2. R2에 PDF 저장" --> F
+    D -- "3. PDF 처리 요청" --> L
+    L -- "4. R2에서 PDF 읽기" --> F
+    L -- "5. 텍스트 임베딩 생성 및 pgvector 저장" --> E_pgvector
+    C -- "6. 채팅 질문" --> D
+    D -- "7. 질문 전달" --> L
+    L -- "8. 유사도 높은 청크 검색" --> E_pgvector
+    L -- "9. LLM에 답변 생성 요청" --> K
+
+    %% 일반 LLM 기능 (기존 채팅)
+    D -- "LLM 기능 요청 (내부 API)" --> L
+    L -- "LLM 서비스 API 요청" --> K
     
     %% 실시간 통신 (WebSocket)
     subgraph "실시간 통신 (WebSocket)"
@@ -109,8 +121,8 @@ graph TD
     -   **인증:** `Google Sign-In` 및 일반 로그인 요청을 처리하고, 검증된 사용자에 대해 `JWT`(Access/Refresh Token)를 생성하여 `HttpOnly` 쿠키로 클라이언트에 설정합니다. `JwtAuthGuard`와 `RolesGuard`를 통해 각 API 엔드포인트의 접근을 제어합니다.
     -   **코인 관리:** 사용자 코인 잔액을 관리하고, 코인 거래 내역을 기록합니다. 관리자용 API를 통해 코인 수동 조정 기능을 제공합니다.
     -   **생성 파이프라인:** 프론트엔드로부터 받은 생성 요청을 `ComfyUI` 연산 서버에 전달하고, `WebSocket`을 통해 진행 상황을 프론트엔드에 브로드캐스트합니다.
-    -   **LLM 기능 연동:** 프론트엔드로부터 받은 LLM 관련 요청을 내부 `comfy-langchain` 서버에 전달하고, 그 결과를 받아 다시 프론트엔드에 반환합니다.
-    -   **결과물 처리:** `ComfyUI`가 생성을 완료하면, 결과 파일(이미지/비디오)을 다운로드하여 `Cloudflare R2`에 업로드하고, 관련 메타데이터(`usedParameters` 등)를 `PostgreSQL` 데이터베이스에 영구적으로 기록합니다.
+    -   **LLM 기능 연동:** 프론트엔드로부터 받은 LLM 관련 요청(일반 채팅, RAG 채팅 등)을 내부 `comfy-langchain` 서버에 전달하고, 그 결과를 받아 다시 프론트엔드에 반환합니다.
+    -   **파일 관리:** `ComfyUI`가 생성한 결과 파일 또는 사용자가 업로드한 PDF 파일을 `Cloudflare R2`에 안전하게 업로드하고 관리합니다.
 
 ### 다. 연산 서버 (Compute Server)
 
@@ -127,14 +139,15 @@ graph TD
 -   **기술:** `FastAPI`, `Python`, `LangChain`
 -   **핵심 역할:**
     -   `LangChain` 라이브러리를 사용하여 LLM(거대 언어 모델) 관련 기능을 전문적으로 처리하는 **Python 기반 API 서버**입니다.
-    -   NestJS 백엔드로부터 내부 API 요청을 받아, 텍스트 생성, 요약, 변환 등의 작업을 수행하고 결과를 반환합니다.
+    -   **일반 채팅:** NestJS 백엔드로부터 내부 API 요청을 받아, 텍스트 생성, 요약 등의 작업을 수행하고 결과를 반환합니다.
+    -   **RAG 파이프라인:** 백엔드로부터 PDF 처리 요청을 받아, 해당 PDF를 읽고 텍스트로 분할한 뒤 벡터로 임베딩하여 `pgvector` 데이터베이스에 저장합니다. 이후 채팅 요청 시, 질문과 관련된 텍스트 조각을 `pgvector`에서 검색하여 LLM에 함께 제공함으로써 근거 기반의 답변을 생성합니다.
     -   내부 API 키(`X-Internal-API-Key`)를 통해 NestJS 백엔드로부터의 요청만 허용하여 보안을 유지합니다.
 
 ### 마. 클라우드 인프라 (Cloud Infrastructure)
 
 -   **Google Cloud Run:** 프론트엔드와 백엔드 `Docker` 컨테이너를 실행하고, 트래픽에 따라 자동으로 확장/축소되는 서버리스 환경을 제공합니다.
--   **PostgreSQL (by Supabase):** 사용자, 워크플로우, 생성 기록, **코인 거래 내역** 등 모든 데이터를 영구적으로 저장하는 데이터베이스입니다.
--   **Cloudflare R2:** 생성된 이미지/비디오 파일을 저장하는 객체 스토리지입니다. (비공개 버킷과 공개 버킷으로 분리 운영)
+-   **PostgreSQL (by Supabase):** 사용자, 워크플로우, 생성 기록, 코인 거래 내역 등 정형 데이터를 영구적으로 저장합니다. **`pgvector`** 확장 프로그램을 활성화하여, RAG 기능을 위한 텍스트 임베딩 벡터를 저장하고 유사도 검색을 수행합니다.
+-   **Cloudflare R2:** 생성된 이미지/비디오 파일, RAG를 위해 사용자가 업로드한 PDF 파일 등을 저장하는 객체 스토리지입니다.
 -   **Cloudflare (전체):** `surfai.org` 도메인의 `DNS`를 관리하고, `WAF`, `CDN` 등의 보안 및 성능 최적화 기능을 제공합니다.
 
 ### 바. 문서 시스템 (Documentation System) - `surfai-docs`

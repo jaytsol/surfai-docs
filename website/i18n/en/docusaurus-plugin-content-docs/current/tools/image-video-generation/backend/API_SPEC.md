@@ -1,6 +1,6 @@
 # API Specification
 
-> **Last Updated:** June 29, 2025
+> **Last Updated:** September 13, 2025
 >
 > This document details all endpoints, request/response formats, and authentication requirements of the SurfAI backend API.
 
@@ -196,13 +196,51 @@
 
 ---
 
-## 6. LangChain (LLM) API
+## 6. Social Connection & Publishing API
+
+> **Controller:** `ConnectController`, `GeneratedOutputController`
+> **Authentication:** All APIs require **Access Token**.
+
+### 6.1 Start SNS Account Connection
+-   **Endpoint:** `GET /connect/:platform`
+-   **Description:** Redirects the user to the OAuth 2.0 authentication page of the specified platform (e.g., `youtube`, `x`).
+-   **Successful Response (`302 Found`):** Redirects to the platform's authentication page.
+
+### 6.2 SNS Account Connection Callback
+-   **Endpoint:** `GET /connect/:platform/callback`
+-   **Description:** Callback URL called after successful platform authentication. The backend exchanges the token and saves the connection info to the DB.
+-   **Successful Response (`200 OK`):** Redirects to a static page indicating success/failure of the connection.
+
+### 6.3 List Connected Accounts
+-   **Endpoint:** `GET /connections`
+-   **Description:** Retrieves a list of all SNS platforms connected by the currently logged-in user.
+-   **Successful Response (`200 OK`):** `string[]` (e.g., `["YOUTUBE", "X"]`)
+
+### 6.4 Disconnect SNS Account
+-   **Endpoint:** `POST /disconnect/:platform`
+-   **Description:** Disconnects from the specified platform and deletes related information from the DB.
+-   **Successful Response (`204 No Content`):** No response body.
+
+### 6.5 Request to Publish Output to SNS
+-   **Endpoint:** `POST /my-outputs/:id/publish`
+-   **Description:** Requests to publish a specific generated output to the specified SNS platforms. The actual upload is processed in the background.
+-   **Request Body:**
+    ```json
+    {
+      "platforms": ["YOUTUBE", "X"] 
+    }
+    ```
+-   **Successful Response (`202 Accepted`):** `{ "message": "SNS publishing job has been started." }`
+
+---
+
+## 7. LangChain (LLM) API
 
 > **Controller:** `LangchainController`
 > **Base Path:** `/langchain`
 > **Authentication:** All APIs require **Access Token**.
 
-### 6.1 AI Chat
+### 7.1 AI Chat
 -   **Endpoint:** `POST /chat`
 -   **Description:** Forwards the prompt received from the user to the FastAPI server to get a response from the LLM.
 -   **Authentication:** Access Token required (JwtAuthGuard)
